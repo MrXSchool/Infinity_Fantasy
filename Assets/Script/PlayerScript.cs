@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+
     private Animator ani;
     private Rigidbody2D rb;
     [SerializeField]
@@ -47,6 +48,7 @@ public class PlayerScript : MonoBehaviour
     }
 
     // Update is called once per frame
+
     void Update()
     {
 
@@ -188,4 +190,5 @@ public class PlayerScript : MonoBehaviour
             Jcount = 0;
         }
     }
+
 }

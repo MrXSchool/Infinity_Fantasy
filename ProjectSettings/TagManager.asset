@@ -12,9 +12,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - background1
+  - background2
+  - ground
   - 
   - 
   - 
@@ -39,6 +39,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: backgrond1
+    uniqueID: 3967881653
+    locked: 0
+  - name: backgrond2
+    uniqueID: 2672035391
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: ground
+    uniqueID: 161199173
+    locked: 0
+  - name: ground1
+    uniqueID: 336112877
+    locked: 0
+  - name: underGround1
+    uniqueID: 1465654717
+    locked: 0
+  - name: underGround
+    uniqueID: 2909824407
     locked: 0
