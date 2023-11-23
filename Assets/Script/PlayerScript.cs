@@ -20,10 +20,14 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField]
     private float Jcount = 0, JcountMax = 2;
+    public float hp = 100, mana = 100;
 
     private bool isAttack = false;
     private bool isRun = false;
     private bool isProtect = false;
+
+    public GameObject healBar;
+    public GameObject manaBar;
 
 
 
@@ -51,6 +55,11 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+
+        //cập nhật thanh máu
+        healBar.GetComponent<HealBarScript>().SetHeal(hp);
+        manaBar.GetComponent<HealBarScript>().SetMana(mana);
+
 
         //DI CHUYỂN THEO TỐC ĐỘ ĐI HOẶC CHẠY
         Horizontal = Input.GetAxisRaw("Horizontal");
