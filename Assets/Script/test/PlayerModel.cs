@@ -14,6 +14,10 @@ public class PlayerModel
         position[2] = player.transform.position.z;
     }
 
-
-
+    public PlayerModel(float hp, float mana, float[] position)
+    {
+        this.hp = hp;
+        this.mana = mana;
+        this.position = position;
+    }
 }

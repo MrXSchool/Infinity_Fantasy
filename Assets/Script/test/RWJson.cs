@@ -24,4 +24,11 @@ public class RWJson : MonoBehaviour
     }
 
 
+
+    public static PlayerModel LoadPlayer()
+    {
+        string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/test/Map.json");
+        MapModel map = JsonUtility.FromJson<MapModel>(json);
+        return map.player;
+    }
 }

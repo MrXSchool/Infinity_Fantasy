@@ -16,10 +16,10 @@ public class PlayerScript : MonoBehaviour
     private String currentState;
     private float Horizontal;
     [SerializeField]
-    private bool isGround = true;
+    public bool isGround = true;
 
     [SerializeField]
-    private float Jcount = 0, JcountMax = 2;
+    public float Jcount = 0, JcountMax = 2;
     public float hp = 100, mana = 100;
 
     private bool isAttack = false;
@@ -28,6 +28,8 @@ public class PlayerScript : MonoBehaviour
 
     public GameObject healBar;
     public GameObject manaBar;
+    public GameObject checkWall;
+    public bool Wall = false;
 
 
 
@@ -51,11 +53,20 @@ public class PlayerScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    public void loadPlayer()
+    {
+        PlayerModel player = RWJson.LoadPlayer();
+        this.hp = player.hp;
+        this.mana = player.mana;
+        this.transform.position = new Vector3(player.position[0], player.position[1], player.position[2]);
+    }
+
     // Update is called once per frame
 
     void Update()
     {
 
+        // isWall();
         //cập nhật thanh máu
         healBar.GetComponent<HealBarScript>().SetHeal(hp);
         manaBar.GetComponent<HealBarScript>().SetMana(mana);
@@ -63,13 +74,18 @@ public class PlayerScript : MonoBehaviour
 
         //DI CHUYỂN THEO TỐC ĐỘ ĐI HOẶC CHẠY
         Horizontal = Input.GetAxisRaw("Horizontal");
-        if (!isRun)
+        if (!Wall)
         {
-            rb.velocity = new Vector2(Horizontal * walkSpeed, rb.velocity.y);
-        }
-        else
-        {
-            rb.velocity = new Vector2(Horizontal * runSpeed, rb.velocity.y);
+            Debug.Log("can go");
+            if (!isRun)
+            {
+                rb.velocity = new Vector2(Horizontal * walkSpeed, rb.velocity.y);
+
+            }
+            else
+            {
+                rb.velocity = new Vector2(Horizontal * runSpeed, rb.velocity.y);
+            }
         }
 
 
@@ -78,11 +94,13 @@ public class PlayerScript : MonoBehaviour
         {
 
             transform.rotation = Quaternion.Euler(0, 0, 0);
+
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
 
             transform.rotation = Quaternion.Euler(0, 180, 0);
+
         }
 
         //NHẢY
@@ -190,14 +208,29 @@ public class PlayerScript : MonoBehaviour
         currentState = newState;
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.collider.CompareTag("Ground"))
-        {
-            isGround = true;
-            Debug.Log(other.gameObject.name);
-            Jcount = 0;
-        }
-    }
 
+
+
+    // private void isWall()
+    // {
+    //     var start = new Vector2(checkWall.transform.position.x, checkWall.transform.position.y);
+    //     RaycastHit2D hit = Physics2D.Raycast(start, Vector2.right, 0.07f);
+    //     Debug.DrawRay(start, Vector2.right * 0.07f, Color.red);
+    //     if (hit.collider != null)
+    //     {
+    //         Wall = true;
+    //         Debug.Log(hit.collider.name);
+    //     }
+    //     else
+    //     {
+    //         Wall = false;
+    //     }
+
+
+
+
+
+
+
+    // }
 }
