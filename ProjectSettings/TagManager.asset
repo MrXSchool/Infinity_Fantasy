@@ -7,6 +7,10 @@ TagManager:
   - Ground
   - pHitBox
   - item
+  - ground
+  - enemy
+  - player
+  - touching
   layers:
   - Default
   - TransparentFX
@@ -17,6 +21,9 @@ TagManager:
   - background1
   - background2
   - ground
+  - 1
+  - 2
+  - 
   - 
   - 
   - 
