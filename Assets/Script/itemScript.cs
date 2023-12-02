@@ -2,17 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PannelScript : MonoBehaviour
+public class itemScript : MonoBehaviour
 {
-    public AudioClip clip;
-    //volume
-    [Range(0, 1)]
-    public float volume;
-
-    private void Awake()
-    {
-        AudioSource.PlayClipAtPoint(clip, transform.position, volume);
-    }
+    public int id;
+    public string name;
+    public string description;
+    public float BonusHP;
+    public float BonusMana;
+    public float BonusDamage;
     // Start is called before the first frame update
     void Start()
     {

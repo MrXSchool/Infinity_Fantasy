@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
+    public GameObject[] inventory = new GameObject[10];
 
     private Animator ani;
     private Rigidbody2D rb;
@@ -76,7 +77,7 @@ public class PlayerScript : MonoBehaviour
         Horizontal = Input.GetAxisRaw("Horizontal");
         if (!Wall)
         {
-            Debug.Log("can go");
+
             if (!isRun)
             {
                 rb.velocity = new Vector2(Horizontal * walkSpeed, rb.velocity.y);
@@ -233,4 +234,27 @@ public class PlayerScript : MonoBehaviour
 
 
     // }
+
+    public void playerStatusBonus(float hp, float mana, float damage)
+    {
+        this.hp += hp;
+        this.mana += mana;
+
+    }
+    public void playerDead()
+    {
+        changeAnimation(PLAYER_DEAD);
+
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "item")
+        {
+            Debug.Log("item");
+            inventory[inventory.Length + 1] = other.gameObject;
+            playerStatusBonus(other.gameObject.GetComponent<itemScript>().BonusHP, other.gameObject.GetComponent<itemScript>().BonusMana, other.gameObject.GetComponent<itemScript>().BonusDamage);
+            Destroy(other.gameObject);
+        }
+    }
 }

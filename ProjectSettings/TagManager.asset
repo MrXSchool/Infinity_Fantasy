@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - pHitBox
+  - item
   layers:
   - Default
   - TransparentFX
@@ -59,4 +61,7 @@ TagManager:
     locked: 0
   - name: underGround
     uniqueID: 2909824407
+    locked: 0
+  - name: UI
+    uniqueID: 4218268279
     locked: 0
