@@ -11,6 +11,7 @@ TagManager:
   - enemy
   - player
   - touching
+  - hitbox
   layers:
   - Default
   - TransparentFX
@@ -23,9 +24,6 @@ TagManager:
   - ground
   - 1
   - 2
-  - 
-  - 
-  - 
   - 
   - 
   - 

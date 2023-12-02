@@ -7,13 +7,8 @@ using Newtonsoft.Json;
 using TMPro;
 using Unity.VisualScripting;
 
-
-
-
-
-public class LoginScript : MonoBehaviour
+public class controlAPI : MonoBehaviour
 {
-
     public TMP_InputField username;
     public TMP_InputField password;
 
@@ -32,6 +27,9 @@ public class LoginScript : MonoBehaviour
         username1 = register.GetComponentsInChildren<TMP_InputField>()[1];
         password1 = register.GetComponentsInChildren<TMP_InputField>()[2];
         confirmPassword = register.GetComponentsInChildren<TMP_InputField>()[3];
+
+        username = login.GetComponentsInChildren<TMP_InputField>()[0];
+        password = login.GetComponentsInChildren<TMP_InputField>()[1];
 
     }
 
@@ -67,6 +65,47 @@ public class LoginScript : MonoBehaviour
 
     }
 
+    public void kiemtraDangKy()
+    {
+        string user = username1.text;
+        string pass = password1.text;
+        string email1 = email.text;
+        string confirm = confirmPassword.text;
+
+        RegisterRequest registerRequest = new RegisterRequest(email1, pass, user, confirm);
+        CheckRegister(registerRequest);
+        StartCoroutine(CheckRegister(registerRequest));
+
+    }
+
+    IEnumerator CheckRegister(RegisterRequest registerRequest)
+    {
+        string jsonStringRequest = JsonConvert.SerializeObject(registerRequest);
+
+        var request = new UnityWebRequest("http://localhost:6969/gameAPI/users/register", "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonStringRequest);
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(request.error);
+        }
+        else
+        {
+            var jsonString = request.downloadHandler.text.ToString();
+            // LoginRespone loginRespone = JsonConvert.DeserializeObject<LoginRespone>(jsonString);
+            // Debug.Log(string.Format("LoginRespone:", loginRespone));
+            error error1 = JsonConvert.DeserializeObject<error>(jsonString);
+            Debug.Log(error1.message);
+        }
+        request.Dispose();
+
+
+    }
+
     IEnumerator CheckLogin(LoginRequest loginRequest)
     {
         string jsonStringRequest = JsonConvert.SerializeObject(loginRequest);
@@ -99,7 +138,7 @@ public class LoginScript : MonoBehaviour
     public void chuyencanh()
     {
 
-        transform.Translate(Vector3.right * 10 * Time.deltaTime);
+        login.transform.Translate(Vector3.right * 10 * Time.deltaTime);
         if (register.transform.position.x <= 0)
         {
             register.transform.Translate(Vector3.right * 10 * Time.deltaTime);

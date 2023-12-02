@@ -67,6 +67,10 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
 
+        if (hp <= 0)
+        {
+            playerDead();
+        }
         // isWall();
         //cập nhật thanh máu
         healBar.GetComponent<HealBarScript>().SetHeal(hp);
@@ -170,7 +174,7 @@ public class PlayerScript : MonoBehaviour
 
 
         // NGHỈ , ĐI VÀ CHẠY
-        if (isGround && !isAttack)
+        if (isGround && !isAttack && hp > 0)
         {
 
             if (Input.GetKeyUp(KeyCode.LeftShift))
@@ -244,6 +248,9 @@ public class PlayerScript : MonoBehaviour
     public void playerDead()
     {
         changeAnimation(PLAYER_DEAD);
+        //disable all component of player
+        this.enabled = false;
+
 
     }
 
@@ -256,5 +263,7 @@ public class PlayerScript : MonoBehaviour
             playerStatusBonus(other.gameObject.GetComponent<itemScript>().BonusHP, other.gameObject.GetComponent<itemScript>().BonusMana, other.gameObject.GetComponent<itemScript>().BonusDamage);
             Destroy(other.gameObject);
         }
+
+
     }
 }

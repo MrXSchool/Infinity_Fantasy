@@ -7,6 +7,9 @@ public class Enemy : MonoBehaviour
 {
 
     public float start, end;
+    public float damage = 10;
+    public float attackspeed = 1;
+    public float hp = 100;
     public float speed;
     private bool isRight;
     public DetectionZone attackZone;
@@ -17,11 +20,14 @@ public class Enemy : MonoBehaviour
     public GameObject player;
 
     public bool _hasTarget = false;
-    public bool HasTarget { get { return _hasTarget; } private set 
-        { 
+    public bool HasTarget
+    {
+        get { return _hasTarget; }
+        private set
+        {
             _hasTarget = value;
             animator.SetBool("hasTarget", value);
-        } 
+        }
     }
 
     public bool CanMove
@@ -34,7 +40,9 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
+
         animator = GetComponent<Animator>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Start is called before the first frame update
@@ -47,32 +55,34 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //set speed animation attack
+        animator.speed = attackspeed;
         // Di chuyển
         var positionEnemy = transform.position.x;
 
         // Dí theo player
         var positionPlayer = player.transform.position.x;
-        if(positionPlayer > start && positionPlayer < end)
+        if (positionPlayer > start && positionPlayer < end)
         {
-            if(positionPlayer < positionEnemy) isRight = false;
-            if(positionPlayer > positionEnemy) isRight = true;
+            if (positionPlayer < positionEnemy) isRight = false;
+            if (positionPlayer > positionEnemy) isRight = true;
         }
 
 
 
-        if(positionEnemy < start)
+        if (positionEnemy < start)
         {
             isRight = true;
         }
 
-        if(positionEnemy > end)
+        if (positionEnemy > end)
         {
             isRight = false;
         }
 
         Vector2 scale = transform.localScale;
-        
-        if(CanMove)
+
+        if (CanMove)
         {
             if (isRight)
             {
@@ -89,7 +99,7 @@ public class Enemy : MonoBehaviour
         {
             transform.Translate(Vector3.left * 0);
         }
-        
+
 
         transform.localScale = scale;
 
@@ -97,22 +107,37 @@ public class Enemy : MonoBehaviour
 
     }
 
+    public void TakeDamage(float damage)
+    {
+        hp -= damage;
+        if (hp <= 0)
+        {
+            Die();
+
+        }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
+
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if( collision.gameObject.tag == "touching" ) 
+        if (collision.gameObject.tag == "touching")
         {
             isRight = !isRight;
         }
 
-        if ( collision.gameObject.tag == "player")
+        if (collision.gameObject.tag == "Player")
         {
-            
+
             rb.bodyType = RigidbodyType2D.Static;
 
         }
         else
         {
-            
+
             rb.bodyType = RigidbodyType2D.Dynamic;
         }
     }

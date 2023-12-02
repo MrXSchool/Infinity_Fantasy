@@ -12,6 +12,16 @@ public class testcheckwall : MonoBehaviour
             Debug.Log("in");
             player.Wall = true;
         }
+
+        if (other.gameObject.tag == "hitbox")
+        {
+            Debug.Log("hitbox");
+            player.hp -= 10;
+
+
+        }
+
+
     }
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -21,4 +31,6 @@ public class testcheckwall : MonoBehaviour
             player.Wall = false;
         }
     }
+
+
 }
