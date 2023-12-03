@@ -26,6 +26,7 @@ public class PlayerScript : MonoBehaviour
     private bool isAttack = false;
     private bool isRun = false;
     private bool isProtect = false;
+    private bool isDead = false;
 
     public GameObject healBar;
     public GameObject manaBar;
@@ -248,10 +249,23 @@ public class PlayerScript : MonoBehaviour
     public void playerDead()
     {
         changeAnimation(PLAYER_DEAD);
+        isDead = true;
         //disable all component of player
         this.enabled = false;
 
 
+    }
+
+    public void takeDamage(float damage)
+    {
+        if (!isProtect)
+        {
+            hp -= damage;
+            if (!isDead)
+            {
+                changeAnimation(PLAYER_HURT);
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)

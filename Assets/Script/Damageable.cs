@@ -34,9 +34,10 @@ public class Damageable : MonoBehaviour
         {
             _health = value;
 
-            if(_health <= 0) {
+            if (_health <= 0)
+            {
                 IsAlive = false;
-                    }
+            }
         }
     }
 
@@ -59,7 +60,7 @@ public class Damageable : MonoBehaviour
             _isAlive = value;
             animator.SetBool("isAlive", value);
             Debug.Log("IsAlive set " + value);
-            
+
         }
     }
 
@@ -70,8 +71,9 @@ public class Damageable : MonoBehaviour
 
     private void Update()
     {
-        if (isInvincible) {
-            if(timeSinceHit > invincibilityTime)
+        if (isInvincible)
+        {
+            if (timeSinceHit > invincibilityTime)
             {
                 isInvincible = false;
                 timeSinceHit = 0;
@@ -80,12 +82,12 @@ public class Damageable : MonoBehaviour
             timeSinceHit += Time.deltaTime;
 
         }
-        Hit(10);
+
     }
 
     public void Hit(int damage)
     {
-        if(IsAlive && !isInvincible)
+        if (IsAlive && !isInvincible)
         {
             Health -= damage;
             isInvincible = true;

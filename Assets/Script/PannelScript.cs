@@ -17,17 +17,21 @@ public class PannelScript : MonoBehaviour
     public GameObject exit;
 
     public GameObject allMusic;
+    public GameObject Menu_panel_after_login;
+    public string currentScene;
+    LoadingScript loadingScript;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        currentScene = SceneManager.GetActiveScene().name;
+        Menu_panel_after_login = GameObject.Find("Menu_panel_after_login");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && currentScene != "intro")
         {
 
             isActived = !isActived;
@@ -63,24 +67,28 @@ public class PannelScript : MonoBehaviour
     {
         seting.SetActive(true);
         menu.SetActive(false);
+        Menu_panel_after_login.SetActive(false);
     }
 
     public void loadClick()
     {
         load.SetActive(true);
         menu.SetActive(false);
+        Menu_panel_after_login.SetActive(false);
     }
 
     public void saveClick()
     {
         save.SetActive(true);
         menu.SetActive(false);
+        Menu_panel_after_login.SetActive(false);
     }
 
     public void exitClick()
     {
         exit.SetActive(true);
         menu.SetActive(false);
+        Menu_panel_after_login.SetActive(false);
     }
 
     public void exitOke()
@@ -96,22 +104,51 @@ public class PannelScript : MonoBehaviour
         if (seting.activeSelf)
         {
             seting.SetActive(false);
-            menu.SetActive(true);
+            if (currentScene == "intro")
+            {
+                menu.SetActive(true);
+            }
+            else
+            {
+                Menu_panel_after_login.SetActive(true);
+            }
+
         }
         else if (load.activeSelf)
         {
             load.SetActive(false);
-            menu.SetActive(true);
+            if (currentScene == "intro")
+            {
+                menu.SetActive(true);
+            }
+            else
+            {
+                Menu_panel_after_login.SetActive(true);
+            }
         }
         else if (save.activeSelf)
         {
             save.SetActive(false);
-            menu.SetActive(true);
+            if (currentScene == "intro")
+            {
+                menu.SetActive(true);
+            }
+            else
+            {
+                Menu_panel_after_login.SetActive(true);
+            }
         }
         else if (exit.activeSelf)
         {
             exit.SetActive(false);
-            menu.SetActive(true);
+            if (currentScene == "intro")
+            {
+                menu.SetActive(true);
+            }
+            else
+            {
+                Menu_panel_after_login.SetActive(true);
+            }
         }
     }
 

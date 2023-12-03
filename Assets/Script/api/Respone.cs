@@ -1,14 +1,17 @@
 
 
-public class error
+public class Respone
 {
-    public error(string message, bool status)
+    public Respone(string message, bool status, user data)
     {
         this.message = message;
         this.status = status;
+        this.data = data;
     }
 
     public string message { get; set; }
 
     public bool status { get; set; }
+
+    public user data { get; set; }
 }

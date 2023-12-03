@@ -10,7 +10,9 @@ public class Stat
     private List<float> modifiers = new List<float>();
     public float GetValue()
     {
-        return baseValue;
+        float finalValue = baseValue;
+        modifiers.ForEach(x => finalValue += x);
+        return finalValue;
     }
 
     public void AddModifier(float modifier)
@@ -29,14 +31,6 @@ public class Stat
         }
     }
 
-    public float getFinalValue()
-    {
-        float finalValue = baseValue;
-        foreach (float modifier in modifiers)
-        {
-            finalValue += modifier;
-        }
-        return finalValue;
-    }
+
 
 }

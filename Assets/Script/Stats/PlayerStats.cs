@@ -21,7 +21,6 @@ public class PlayerStats : CharacterStats
             armor.AddModifier(newItem.armorModifier);
             damage.AddModifier(newItem.damageModifier);
             jMax.AddModifier(newItem.jMaxModifier);
-            player.JcountMax = jMax.getFinalValue();
         }
         if (oldItem != null)
         {

@@ -11,17 +11,24 @@ public class controlAPI : MonoBehaviour
 {
     public TMP_InputField username;
     public TMP_InputField password;
+    public TMP_Text txtDialog;
 
     public TMP_InputField email, username1, password1, confirmPassword;
     public bool clicked = false;
     public GameObject login;
     public GameObject register;
+    public GameObject dialog;
+    public GameObject Menu_panel_after_login;
     public float x;
+    public float y;
+    public bool isLoginActive = true;
     // Start is called before the first frame update
     void Start()
     {
         register = GameObject.Find("Register_panel");
         login = GameObject.Find("Login_panel");
+        dialog = GameObject.Find("dialog");
+        Menu_panel_after_login = GameObject.Find("Menu_panel_after_login");
 
         email = register.GetComponentsInChildren<TMP_InputField>()[0];
         username1 = register.GetComponentsInChildren<TMP_InputField>()[1];
@@ -30,18 +37,25 @@ public class controlAPI : MonoBehaviour
 
         username = login.GetComponentsInChildren<TMP_InputField>()[0];
         password = login.GetComponentsInChildren<TMP_InputField>()[1];
+        txtDialog = dialog.GetComponentsInChildren<TMP_Text>()[0];
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        isLoginActive = login.activeSelf;
+        if (!login.activeSelf && Menu_panel_after_login.transform.position.y <= 0)
+        {
+            showmenu();
+        }
         if (clicked)
         {
             chuyencanh();
         }
 
         x = login.transform.position.x;
+        y = Menu_panel_after_login.transform.position.y;
         if (login.transform.position.x >= 20)
         {
             // login.SetActive(false);
@@ -98,8 +112,20 @@ public class controlAPI : MonoBehaviour
             var jsonString = request.downloadHandler.text.ToString();
             // LoginRespone loginRespone = JsonConvert.DeserializeObject<LoginRespone>(jsonString);
             // Debug.Log(string.Format("LoginRespone:", loginRespone));
-            error error1 = JsonConvert.DeserializeObject<error>(jsonString);
-            Debug.Log(error1.message);
+
+            Respone respone = JsonConvert.DeserializeObject<Respone>(jsonString);
+            Debug.Log(string.Format("Respone status: {0}, message: {1}", respone.status, respone.message));
+            if (respone.status)
+            {
+                Debug.Log("Dang ky thanh cong");
+            }
+            else
+            {
+                Debug.Log("Dang ky that bai");
+            }
+
+
+
         }
         request.Dispose();
 
@@ -126,7 +152,25 @@ public class controlAPI : MonoBehaviour
             var jsonString = request.downloadHandler.text.ToString();
             // LoginRespone loginRespone = JsonConvert.DeserializeObject<LoginRespone>(jsonString);
             // Debug.Log(string.Format("LoginRespone:", loginRespone));
-            Debug.Log(jsonString);
+            Respone respone = JsonConvert.DeserializeObject<Respone>(jsonString);
+
+            if (respone.status)
+            {
+                string jsonString1 = JsonConvert.SerializeObject(respone.data);
+                System.IO.File.WriteAllText(Application.dataPath + "/Data/user/" + respone.data.username + ".json", jsonString1);
+                txtDialog.text = "Long time no see " + respone.data.username + " !";
+                login.SetActive(false);
+
+
+            }
+            else
+            {
+
+                txtDialog.text = respone.message;
+            }
+            dialogAnimation();
+
+
 
 
         }
@@ -146,4 +190,41 @@ public class controlAPI : MonoBehaviour
 
 
     }
+
+
+    public void dialogAnimation()
+    {
+        CanvasGroup canvasGroup = dialog.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+        StartCoroutine(DoFade(canvasGroup, canvasGroup.alpha, 1));
+
+
+    }
+
+    IEnumerator DoFade(CanvasGroup canvasGroup, float start, float end)
+    {
+        float counter = 0f;
+        while (counter < 3f)
+        {
+            counter += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(start, end, counter);
+            if (canvasGroup.alpha == 1)
+            {
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
+                StartCoroutine(DoFade(canvasGroup, canvasGroup.alpha, 0));
+            }
+            yield return null;
+
+        }
+    }
+
+    public void showmenu()
+    {
+        Menu_panel_after_login.transform.Translate(Vector3.up * 10 * Time.deltaTime);
+
+    }
+
 }

@@ -83,7 +83,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -1.05
+        value: -1.15
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -92,34 +92,25 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.21666667
-        value: -1.05
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.43333334
-        value: -1.07
-        inSlope: 0
-        outSlope: 0
+        value: -1.03
+        inSlope: 1.0666667
+        outSlope: 1.0666667
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.45
-        value: 0.71
-        inSlope: 0.16000006
-        outSlope: 0.16000006
+        value: 0.69
+        inSlope: 0
+        outSlope: 0
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.68333334
-        value: 0.72
+        value: 0.34
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -130,7 +121,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Offset.x
-    path: hitbox
+    path: eHitBox
     classID: 58
     script: {fileID: 0}
     flags: 0
@@ -140,7 +131,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.67
+        value: 0.72
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -149,7 +140,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.21666667
-        value: 0.75
+        value: 0.74
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -157,26 +148,17 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.43333334
-        value: 0.67
-        inSlope: -1.3714284
-        outSlope: -1.3714284
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
         time: 0.45
         value: 0.12
-        inSlope: -3.12
-        outSlope: -3.12
+        inSlope: -1.8428571
+        outSlope: -1.8428571
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.68333334
-        value: -0.11
+        value: -0.12
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -187,7 +169,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Offset.y
-    path: hitbox
+    path: eHitBox
     classID: 58
     script: {fileID: 0}
     flags: 0
@@ -205,17 +187,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.43333334
-        value: 0.23
-        inSlope: 1.0666667
-        outSlope: 1.0666667
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
         time: 0.45
-        value: 1.04
+        value: 1.01
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -235,7 +208,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Radius
-    path: hitbox
+    path: eHitBox
     classID: 58
     script: {fileID: 0}
     flags: 0
@@ -263,7 +236,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 3539115851
+      path: 406044930
       attribute: 413499720
       script: {fileID: 0}
       typeID: 58
@@ -272,7 +245,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3539115851
+      path: 406044930
       attribute: 1872933342
       script: {fileID: 0}
       typeID: 58
@@ -281,7 +254,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3539115851
+      path: 406044930
       attribute: 1984117138
       script: {fileID: 0}
       typeID: 58
@@ -408,7 +381,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -1.05
+        value: -1.15
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -417,34 +390,25 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.21666667
-        value: -1.05
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.43333334
-        value: -1.07
-        inSlope: 0
-        outSlope: 0
+        value: -1.03
+        inSlope: 1.0666667
+        outSlope: 1.0666667
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.45
-        value: 0.71
-        inSlope: 0.16000006
-        outSlope: 0.16000006
+        value: 0.69
+        inSlope: 0
+        outSlope: 0
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.68333334
-        value: 0.72
+        value: 0.34
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -455,7 +419,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Offset.x
-    path: hitbox
+    path: eHitBox
     classID: 58
     script: {fileID: 0}
     flags: 0
@@ -465,7 +429,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.67
+        value: 0.72
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -474,7 +438,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.21666667
-        value: 0.75
+        value: 0.74
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -482,26 +446,17 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.43333334
-        value: 0.67
-        inSlope: -1.3714284
-        outSlope: -1.3714284
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
         time: 0.45
         value: 0.12
-        inSlope: -3.12
-        outSlope: -3.12
+        inSlope: -1.8428571
+        outSlope: -1.8428571
         tangentMode: 136
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.68333334
-        value: -0.11
+        value: -0.12
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -512,7 +467,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Offset.y
-    path: hitbox
+    path: eHitBox
     classID: 58
     script: {fileID: 0}
     flags: 0
@@ -530,17 +485,8 @@ AnimationClip:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.43333334
-        value: 0.23
-        inSlope: 1.0666667
-        outSlope: 1.0666667
-        tangentMode: 136
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
         time: 0.45
-        value: 1.04
+        value: 1.01
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -560,7 +506,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_Radius
-    path: hitbox
+    path: eHitBox
     classID: 58
     script: {fileID: 0}
     flags: 0

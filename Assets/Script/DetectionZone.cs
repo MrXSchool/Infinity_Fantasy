@@ -12,7 +12,7 @@ public class DetectionZone : MonoBehaviour
 
     private void Awake()
     {
-        col = GetComponent<Collider2D>();
+        col = GameObject.Find("eHitBox").GetComponent<Collider2D>();
         enemy = GetComponentInParent<Enemy>();
         animator = GetComponentInParent<Animator>();
     }
@@ -26,7 +26,7 @@ public class DetectionZone : MonoBehaviour
 
         if (collision.gameObject.tag == "pHitBox")
         {
-            enemy.TakeDamage(20);
+            enemy.GetComponent<Damageable>().Hit(10);
 
 
         }
@@ -42,6 +42,8 @@ public class DetectionZone : MonoBehaviour
         }
 
     }
+
+
 
 
 }

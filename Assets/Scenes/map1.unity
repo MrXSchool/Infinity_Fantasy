@@ -555,9 +555,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: menu
       objectReference: {fileID: 0}
+    - target: {fileID: 2953159288087107579, guid: 464db00dbc328ae4aa7580917846d4a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3707658696724256881, guid: 464db00dbc328ae4aa7580917846d4a1, type: 3}
       propertyPath: m_Name
       value: btnExit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3712214458669758721, guid: 464db00dbc328ae4aa7580917846d4a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4113898201009473528, guid: 464db00dbc328ae4aa7580917846d4a1, type: 3}
       propertyPath: m_Name

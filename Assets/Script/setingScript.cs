@@ -6,20 +6,22 @@ using UnityEngine.UI;
 public class setingScript : MonoBehaviour
 {
     public Slider musicVolume;
-    public AudioSource music;
-    public AudioClip testsound;
+    public AudioSource musicBackground;
+    public GameObject musicObject;
     public bool isActived = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        musicVolume.value = music.volume;
+        musicObject = GameObject.Find("music");
+        musicBackground = musicObject.GetComponentsInChildren<AudioSource>()[0];
+        musicVolume.value = musicBackground.volume;
     }
 
     // Update is called once per frame
     void Update()
     {
-        music.volume = musicVolume.value;
+        musicBackground.volume = musicVolume.value;
 
 
     }
