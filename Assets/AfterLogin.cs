@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class AfterLogin : MonoBehaviour
 {
 
     public GameObject Menu_panel_after_login;
     public GameObject setting_panel;
+    public GameObject Load_panel;
+    public GameObject saveFIle;
     public Button newgame, loadgame, setting, exit;
     LoadingScript loadingScript;
+    public GameObject saveSlot;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +25,9 @@ public class AfterLogin : MonoBehaviour
         setting = Menu_panel_after_login.GetComponentsInChildren<Button>()[2];
         exit = Menu_panel_after_login.GetComponentsInChildren<Button>()[3];
         loadingScript = GameObject.Find("Loading").GetComponent<LoadingScript>();
+        saveSlot = Resources.Load<GameObject>("saveSlot");
+
+
     }
 
     // Update is called once per frame
@@ -31,7 +38,10 @@ public class AfterLogin : MonoBehaviour
 
     public void newGame()
     {
+        SceneLoader sceneLoader = GameObject.Find("menu").GetComponent<SceneLoader>();
+        sceneLoader.isload = false;
         loadingScript.LoadLevel(1);
+
     }
 
 
@@ -42,8 +52,83 @@ public class AfterLogin : MonoBehaviour
     }
 
 
+    public void LoadGame()
+    {
+        SceneLoader sceneLoader = GameObject.Find("menu").GetComponent<SceneLoader>();
+        sceneLoader.isload = true;
+        Menu_panel_after_login.SetActive(false);
+        Load_panel.SetActive(true);
+        string[] files = System.IO.Directory.GetFiles("Assets/Data/test", "*.json");
+        if (files.Length == 0)
+        {
+            Debug.Log("No files found.");
+        }
+        else
+        {
+            int Count = 0;
+            foreach (string file in files)
+            {
+                GameObject slot = Instantiate(saveSlot);
+                slot.transform.SetParent(saveFIle.transform);
+                slot.name = "slot" + Count.ToString();
+                //Assets/Data/test\Map.json
+                string[] name = file.Split('\\');
+                string[] name1 = name[1].Split('.');
+                slot.GetComponentInChildren<TMP_Text>().text = name1[0];
+                string json = System.IO.File.ReadAllText(file);
+                MapModel map = JsonUtility.FromJson<MapModel>(json);
+                if (map.player.playerAvatar != null)
+                {
+                    slot.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(map.player.playerAvatar);
+                }
+                else
+                {
+                    slot.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Assets/Resource/Player/Samurai/Samurai_Commander/Idle.png");
+                }
+                slot.GetComponentsInChildren<TMP_Text>()[2].text = map.player.hp.ToString();
+                slot.GetComponentsInChildren<TMP_Text>()[3].text = map.player.mana.ToString();
+                slot.GetComponentsInChildren<TMP_Text>()[5].text = "X: " + System.Math.Round(map.player.position[0], 2).ToString() + " Y: " + System.Math.Round(map.player.position[1], 2).ToString();
 
 
+
+                Count++;
+            }
+        }
+        // gameObject.SetActive(false);
+        // SaveFile_panel.SetActive(true);
+    }
+
+
+    public void loadLevel(string sceneName)
+    {
+        loadingScript.LoadLevel(getLevel(sceneName));
+    }
+
+    public int getLevel(string sceneName)
+    {
+        //intro 0 map1 1 map2 2 map3 3 
+        if (sceneName == "intro")
+        {
+            return 0;
+        }
+        else if (sceneName == "map1")
+        {
+            return 1;
+        }
+        else if (sceneName == "map2")
+        {
+            return 2;
+        }
+        else if (sceneName == "map3")
+        {
+            return 3;
+        }
+        else
+        {
+            return 0;
+        }
+
+    }
 
 
 }

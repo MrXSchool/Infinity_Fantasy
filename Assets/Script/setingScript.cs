@@ -23,7 +23,6 @@ public class setingScript : MonoBehaviour
     {
         musicBackground.volume = musicVolume.value;
 
-
     }
 
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     public float Jcount = 0, JcountMax = 2;
     public float hp = 100, mana = 100;
+    public string playerAvatar;
+    public string playerName;
 
     private bool isAttack = false;
     private bool isRun = false;
@@ -53,7 +56,13 @@ public class PlayerScript : MonoBehaviour
     {
         ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        healBar = GameObject.Find("HealBar");
+        manaBar = GameObject.Find("ManaBar");
+        Sprite sprite = GetComponentInParent<SpriteRenderer>().sprite;
+        playerAvatar = AssetDatabase.GetAssetPath(sprite.texture);
+        playerName = this.name;
     }
+
 
     public void loadPlayer()
     {
@@ -261,10 +270,7 @@ public class PlayerScript : MonoBehaviour
         if (!isProtect)
         {
             hp -= damage;
-            if (!isDead)
-            {
-                changeAnimation(PLAYER_HURT);
-            }
+
         }
     }
 

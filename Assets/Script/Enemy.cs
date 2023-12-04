@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     public float speed;
     private bool isRight;
     public DetectionZone attackZone;
+    public string enemyName;
     Animator animator;
     Collider2D cd;
     Rigidbody2D rb;
@@ -43,6 +44,7 @@ public class Enemy : MonoBehaviour
 
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
+        enemyName = gameObject.name.Split(' ')[0];
     }
 
     // Start is called before the first frame update
@@ -55,17 +57,24 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
         //set speed animation attack
         animator.speed = attackspeed;
         // Di chuyển
         var positionEnemy = transform.position.x;
 
         // Dí theo player
-        var positionPlayer = player.transform.position.x;
-        if (positionPlayer > start && positionPlayer < end)
+        if (player != null)
         {
-            if (positionPlayer < positionEnemy) isRight = false;
-            if (positionPlayer > positionEnemy) isRight = true;
+            var positionPlayer = player.transform.position.x;
+            if (positionPlayer > start && positionPlayer < end)
+            {
+                if (positionPlayer < positionEnemy) isRight = false;
+                if (positionPlayer > positionEnemy) isRight = true;
+            }
         }
 
 

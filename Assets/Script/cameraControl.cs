@@ -9,12 +9,15 @@ public class cameraControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
 
         transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
     }

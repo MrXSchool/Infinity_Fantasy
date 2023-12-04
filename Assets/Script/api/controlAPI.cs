@@ -22,6 +22,8 @@ public class controlAPI : MonoBehaviour
     public float x;
     public float y;
     public bool isLoginActive = true;
+    public bool isLogin = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -117,12 +119,14 @@ public class controlAPI : MonoBehaviour
             Debug.Log(string.Format("Respone status: {0}, message: {1}", respone.status, respone.message));
             if (respone.status)
             {
-                Debug.Log("Dang ky thanh cong");
+                txtDialog.text = "Wellcome " + respone.data.username + " !";
             }
             else
             {
-                Debug.Log("Dang ky that bai");
+
+                txtDialog.text = respone.message;
             }
+            dialogAnimation();
 
 
 
@@ -160,6 +164,7 @@ public class controlAPI : MonoBehaviour
                 System.IO.File.WriteAllText(Application.dataPath + "/Data/user/" + respone.data.username + ".json", jsonString1);
                 txtDialog.text = "Long time no see " + respone.data.username + " !";
                 login.SetActive(false);
+                isLogin = true;
 
 
             }
