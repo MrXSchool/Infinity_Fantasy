@@ -1,1 +1,151 @@
-{"player":{"hp":1000.0,"mana":9999.0,"position":[46.415225982666019,2.9350192546844484,0.0],"playerName":"Player1","playerAvatar":"Assets/Resource/Player/Samurai/Samurai_Commander/Idle.png"},"enermy":[{"enemyName":"RedWereWolf","hp":100.0,"speed":2.0,"start":82.22000122070313,"end":92.72000122070313,"damage":10.0,"position":[91.38375854492188,-1.945901870727539,0.0]},{"enemyName":"RedWereWolf","hp":100.0,"speed":2.0,"start":164.14999389648438,"end":175.6699981689453,"damage":10.0,"position":[175.5778045654297,0.05408477783203125,0.0]},{"enemyName":"RedWereWolf","hp":100.0,"speed":2.0,"start":111.30999755859375,"end":126.77999877929688,"damage":10.0,"position":[115.2542724609375,-3.945873975753784,0.0]},{"enemyName":"RedWereWolf","hp":100.0,"speed":2.0,"start":63.59000015258789,"end":79.41999816894531,"damage":10.0,"position":[64.91675567626953,-1.9459253549575806,0.0]},{"enemyName":"RedWereWolf","hp":100.0,"speed":2.0,"start":129.94000244140626,"end":147.32000732421876,"damage":10.0,"position":[136.49270629882813,-3.9458889961242677,0.0]}],"sceneName":"map1"}
+[
+    {
+        "player": {
+            "hp": 1000.0,
+            "mana": 9999.0,
+            "position": [
+                46.415225982666019,
+                2.9350192546844484,
+                0.0
+            ],
+            "playerName": "Player1",
+            "playerAvatar": "Assets/Resource/Player/Samurai/Samurai_Commander/Idle.png"
+        },
+        "enermy": [
+            {
+                "enemyName": "RedWereWolf",
+                "hp": 100.0,
+                "speed": 2.0,
+                "start": 82.22000122070313,
+                "end": 92.72000122070313,
+                "damage": 10.0,
+                "position": [
+                    91.38375854492188,
+                    -1.945901870727539,
+                    0.0
+                ]
+            },
+            {
+                "enemyName": "RedWereWolf",
+                "hp": 100.0,
+                "speed": 2.0,
+                "start": 164.14999389648438,
+                "end": 175.6699981689453,
+                "damage": 10.0,
+                "position": [
+                    175.5778045654297,
+                    0.05408477783203125,
+                    0.0
+                ]
+            },
+            {
+                "enemyName": "RedWereWolf",
+                "hp": 100.0,
+                "speed": 2.0,
+                "start": 111.30999755859375,
+                "end": 126.77999877929688,
+                "damage": 10.0,
+                "position": [
+                    115.2542724609375,
+                    -3.945873975753784,
+                    0.0
+                ]
+            },
+            {
+                "enemyName": "RedWereWolf",
+                "hp": 100.0,
+                "speed": 2.0,
+                "start": 63.59000015258789,
+                "end": 79.41999816894531,
+                "damage": 10.0,
+                "position": [
+                    64.91675567626953,
+                    -1.9459253549575806,
+                    0.0
+                ]
+            },
+            {
+                "enemyName": "RedWereWolf",
+                "hp": 100.0,
+                "speed": 2.0,
+                "start": 129.94000244140626,
+                "end": 147.32000732421876,
+                "damage": 10.0,
+                "position": [
+                    136.49270629882813,
+                    -3.9458889961242677,
+                    0.0
+                ]
+            }
+        ],
+        "sceneName": "map1"
+    },
+    {
+        "player": {
+            "hp": 100.0,
+            "mana": 100.0,
+            "position": [
+                -11.024221420288086,
+                0.7303783893585205,
+                0.0
+            ],
+            "playerName": "Player1",
+            "playerAvatar": "Assets/Resource/Player/Samurai/Samurai_Commander/Idle.png"
+        },
+        "enermy": [
+            {
+                "enemyName": "BlackWereWolf",
+                "hp": "100",
+                "speed": "2",
+                "start": "77",
+                "end": "88",
+                "damage": "10",
+                "position": [
+                    80.54000091552735,
+                    -1.187307596206665,
+                    0.0
+                ]
+            },
+            {
+                "enemyName": "BlackWereWolf",
+                "hp": "100",
+                "speed": "2",
+                "start": "70",
+                "end": "76",
+                "damage": "10",
+                "position": [
+                    75.41999816894531,
+                    -1.1873165369033814,
+                    0.0
+                ]
+            },
+            {
+                "enemyName": "BlackWereWolf",
+                "hp": "100",
+                "speed": "2",
+                "start": "52",
+                "end": "60",
+                "damage": "10",
+                "position": [
+                    50.400001525878909,
+                    -1.3055599927902222,
+                    0.0
+                ]
+            },
+            {
+                "enemyName": "BlackWereWolf",
+                "hp": "100",
+                "speed": "2",
+                "start": "40",
+                "end": "51",
+                "damage": "10",
+                "position": [
+                    42.349998474121097,
+                    -1.307278037071228,
+                    0.0
+                ]
+            }
+        ],
+        "sceneName": "sceneTest_X"
+    }
+]

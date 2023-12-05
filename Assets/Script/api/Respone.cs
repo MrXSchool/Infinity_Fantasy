@@ -1,17 +1,19 @@
+using Newtonsoft.Json;
 
-
+[System.Serializable]
 public class Respone
 {
-    public Respone(string message, bool status, user data)
+    [JsonConstructor]
+    public Respone(string message, bool status, User user)
     {
         this.message = message;
         this.status = status;
-        this.data = data;
+        this.user = user;
     }
 
     public string message { get; set; }
 
     public bool status { get; set; }
 
-    public user data { get; set; }
+    public User user { get; set; }
 }

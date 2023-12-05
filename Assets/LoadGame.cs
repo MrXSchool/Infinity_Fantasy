@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -44,22 +45,51 @@ public class LoadGame : MonoBehaviour
     public void saveToJson()
     {
         Time.timeScale = 0;
-        string sceneName = SceneManager.GetActiveScene().name;
-        player = GameObject.FindGameObjectWithTag("Player");
-        enemy = GameObject.FindGameObjectsWithTag("enemy");
-        List<EnemyModel> enemies = new List<EnemyModel>();
-        foreach (GameObject e in enemy)
+        try
         {
-            Enemy enemy = e.GetComponent<Enemy>();
-            EnemyModel enemydata = new EnemyModel(enemy);
-            enemies.Add(enemydata);
+
+            string sceneName = SceneManager.GetActiveScene().name;
+            player = GameObject.FindGameObjectWithTag("Player");
+            enemy = GameObject.FindGameObjectsWithTag("enemy");
+            List<EnemyModel> enemies = new List<EnemyModel>();
+            foreach (GameObject e in enemy)
+            {
+                Enemy enemy = e.GetComponent<Enemy>();
+                EnemyModel enemydata = new EnemyModel(enemy);
+                enemies.Add(enemydata);
+            }
+            PlayerScript players = this.player.GetComponent<PlayerScript>();
+            PlayerModel playerdata = new PlayerModel(players);
+            MapModel mapdata = new MapModel(sceneName, playerdata, enemies);
+            string file = System.IO.File.ReadAllText(Application.dataPath + "Data/user" + PlayerPrefs.GetString("username") + ".json");
+            User user = JsonConvert.DeserializeObject<User>(file);
+            List<MapModel> mapModels = user.data;
+            bool isExist = false;
+            foreach (MapModel map in mapModels)
+            {
+                if (map.sceneName == mapdata.sceneName)
+                {
+                    map.player = mapdata.player;
+                    map.enermy = mapdata.enermy;
+                    isExist = true;
+                    Debug.Log("Map đã được ghi đè");
+                }
+            }
+            if (!isExist)
+            {
+                mapModels.Add(mapdata);
+                Debug.Log("Đã lưu map");
+            }
+
+
+
+
         }
-        PlayerScript players = this.player.GetComponent<PlayerScript>();
-        PlayerModel playerdata = new PlayerModel(players);
-        MapModel mapdata = new MapModel(playerdata, enemies, sceneName);
-        string json = JsonUtility.ToJson(mapdata);
-        System.IO.File.WriteAllText(Application.dataPath + "/Data/test/" + sceneName + ".json", json);
-        Time.timeScale = 1;
+        catch (System.Exception)
+        {
+
+            throw;
+        }
     }
 
     public void loadFromJson(string sceneName)
@@ -81,40 +111,47 @@ public class LoadGame : MonoBehaviour
         }
         try
         {
-            string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/test/" + sceneName + ".json");
-            MapModel map = JsonUtility.FromJson<MapModel>(json);
-            PlayerModel player = map.player;
-            int Count = 0;
-            foreach (EnemyModel enemy in map.enermy)
+            string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + PlayerPrefs.GetString("username") + ".json");
+            User user = JsonConvert.DeserializeObject<User>(json);
+            List<MapModel> mapModels = user.data;
+            foreach (MapModel map in mapModels)
             {
-                //hp, speed, start, end, damage;
+                if (map.sceneName == sceneName)
+                {
+                    PlayerModel player = map.player;
+                    int Count = 0;
+                    foreach (EnemyModel enemy in map.enermy)
+                    {
+                        //hp, speed, start, end, damage;
 
-                string enemyName = enemy.enemyName;
-                float enemyHp = enemy.hp;
-                float enemySpeed = enemy.speed;
-                float enemyStart = enemy.start;
-                float enemyEnd = enemy.end;
-                float enemyDamage = enemy.damage;
-                float[] enemyPosition = enemy.position;
-                Spawn(enemyName, enemyPosition);
+                        string enemyName = enemy.enemyName;
+                        float enemyHp = enemy.hp;
+                        float enemySpeed = enemy.speed;
+                        float enemyStart = enemy.start;
+                        float enemyEnd = enemy.end;
+                        float enemyDamage = enemy.damage;
+                        float[] enemyPosition = enemy.position;
+                        Spawn(enemyName, enemyPosition);
 
-                string enemyNameClone = enemyName + "(Clone)";
+                        string enemyNameClone = enemyName + "(Clone)";
 
-                GameObject enemyObject = GameObject.Find(enemyNameClone);
-                enemyObject.name = enemyNameClone + Count.ToString();
-                Enemy enemyScript = enemyObject.GetComponent<Enemy>();
-                enemyScript.hp = enemyHp;
-                enemyScript.speed = enemySpeed;
-                enemyScript.start = enemyStart;
-                enemyScript.end = enemyEnd;
-                enemyScript.damage = enemyDamage;
+                        GameObject enemyObject = GameObject.Find(enemyNameClone);
+                        enemyObject.name = enemyNameClone + Count.ToString();
+                        Enemy enemyScript = enemyObject.GetComponent<Enemy>();
+                        enemyScript.hp = enemyHp;
+                        enemyScript.speed = enemySpeed;
+                        enemyScript.start = enemyStart;
+                        enemyScript.end = enemyEnd;
+                        enemyScript.damage = enemyDamage;
 
-                Count++;
+                        Count++;
+                    }
+                    Spawn(player.playerName, player.position);
+                    PlayerScript playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+                    playerScript.hp = player.hp;
+                    playerScript.mana = player.mana;
+                }
             }
-            Spawn(player.playerName, player.position);
-            PlayerScript playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
-            playerScript.hp = player.hp;
-            playerScript.mana = player.mana;
         }
         catch
         {

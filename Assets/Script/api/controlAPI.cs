@@ -119,7 +119,8 @@ public class controlAPI : MonoBehaviour
             Debug.Log(string.Format("Respone status: {0}, message: {1}", respone.status, respone.message));
             if (respone.status)
             {
-                txtDialog.text = "Wellcome " + respone.data.username + " !";
+                txtDialog.text = "Wellcome " + respone.user.username + " !";
+                PlayerPrefs.SetString("_id", respone.user._id);
             }
             else
             {
@@ -160,13 +161,13 @@ public class controlAPI : MonoBehaviour
 
             if (respone.status)
             {
-                string jsonString1 = JsonConvert.SerializeObject(respone.data);
-                System.IO.File.WriteAllText(Application.dataPath + "/Data/user/" + respone.data.username + ".json", jsonString1);
-                txtDialog.text = "Long time no see " + respone.data.username + " !";
+                string jsonString1 = JsonConvert.SerializeObject(respone.user);
+                System.IO.File.WriteAllText(Application.dataPath + "/Data/user/" + respone.user.username + ".json", jsonString1);
+                txtDialog.text = "Long time no see " + respone.user.username + " !";
+                PlayerPrefs.SetString("_id", respone.user._id);
+                PlayerPrefs.SetString("username", respone.user.username);
                 login.SetActive(false);
                 isLogin = true;
-
-
             }
             else
             {

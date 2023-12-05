@@ -1,8 +1,12 @@
 
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
-public class user
+[System.Serializable]
+public class User
 {
-    public user(string id, string email, string username, string password, string data)
+    [JsonConstructor]
+    public User(string id, string email, string username, string password, List<MapModel> data)
     {
         _id = id;
         this.email = email;
@@ -11,10 +15,11 @@ public class user
         this.data = data;
     }
 
+
     public string _id { get; set; }
     public string email { get; set; }
     public string username { get; set; }
     public string password { get; set; }
-    public string data { get; set; }
+    public List<MapModel> data { get; set; }
 
 }

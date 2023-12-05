@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -56,7 +57,7 @@ public class test : MonoBehaviour
         }
         PlayerScript players = this.player.GetComponent<PlayerScript>();
         PlayerModel playerdata = new PlayerModel(players);
-        MapModel mapdata = new MapModel(playerdata, enemies, sceneName);
+        MapModel mapdata = new MapModel(sceneName, playerdata, enemies);
         string json = JsonUtility.ToJson(mapdata);
         System.IO.File.WriteAllText(Application.dataPath + "/Data/test/" + sceneName + ".json", json);
         Time.timeScale = 1;
@@ -65,7 +66,7 @@ public class test : MonoBehaviour
     public void loadFromJson(string sceneName)
     {
         string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/test/" + sceneName + ".json");
-        MapModel map = JsonUtility.FromJson<MapModel>(json);
+        MapModel map = JsonConvert.DeserializeObject<MapModel>(json);
         PlayerModel player = map.player;
         int Count = 0;
         foreach (EnemyModel enemy in map.enermy)

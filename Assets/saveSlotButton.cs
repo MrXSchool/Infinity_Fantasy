@@ -7,11 +7,15 @@ public class saveSlotButton : MonoBehaviour
 {
     public string nameSave;
     LoadingScript loadingScript;
+    public GameObject menu;
+    public GameObject Load_panel;
     // Start is called before the first frame update
     void Start()
     {
         nameSave = this.gameObject.GetComponentInChildren<TMP_Text>().text;
         loadingScript = GameObject.Find("Loading").GetComponent<LoadingScript>();
+        menu = GameObject.Find("menu");
+        Load_panel = GameObject.Find("Load_panel");
 
     }
 
@@ -22,6 +26,8 @@ public class saveSlotButton : MonoBehaviour
     }
     public void click()
     {
+        Load_panel.SetActive(false);
+        menu.GetComponent<PannelScript>().dialogAnimation();
         loadingScript.LoadLevel(getLevel(nameSave));
     }
 

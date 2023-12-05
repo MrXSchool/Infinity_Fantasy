@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
+using Newtonsoft.Json;
 
 public class AfterLogin : MonoBehaviour
 {
@@ -38,6 +40,7 @@ public class AfterLogin : MonoBehaviour
 
     public void newGame()
     {
+        gameObject.SetActive(false);
         SceneLoader sceneLoader = GameObject.Find("menu").GetComponent<SceneLoader>();
         sceneLoader.isload = false;
         loadingScript.LoadLevel(1);
@@ -52,31 +55,25 @@ public class AfterLogin : MonoBehaviour
     }
 
 
-    public void LoadGame()
+    public async void LoadGame()
     {
-        SceneLoader sceneLoader = GameObject.Find("menu").GetComponent<SceneLoader>();
-        sceneLoader.isload = true;
-        Menu_panel_after_login.SetActive(false);
-        Load_panel.SetActive(true);
-        string[] files = System.IO.Directory.GetFiles("Assets/Data/test", "*.json");
-        if (files.Length == 0)
+        try
         {
-            Debug.Log("No files found.");
-        }
-        else
-        {
+            PlayerPrefs.GetString("username");
+            SceneLoader sceneLoader = GameObject.Find("menu").GetComponent<SceneLoader>();
+            sceneLoader.isload = true;
+            Menu_panel_after_login.SetActive(false);
+            Load_panel.SetActive(true);
+            string file = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + PlayerPrefs.GetString("username") + ".json");
+            User user = JsonConvert.DeserializeObject<User>(file);
+            List<MapModel> mapModels = user.data;
             int Count = 0;
-            foreach (string file in files)
+            foreach (MapModel map in mapModels)
             {
                 GameObject slot = Instantiate(saveSlot);
                 slot.transform.SetParent(saveFIle.transform);
                 slot.name = "slot" + Count.ToString();
-                //Assets/Data/test\Map.json
-                string[] name = file.Split('\\');
-                string[] name1 = name[1].Split('.');
-                slot.GetComponentInChildren<TMP_Text>().text = name1[0];
-                string json = System.IO.File.ReadAllText(file);
-                MapModel map = JsonUtility.FromJson<MapModel>(json);
+                slot.GetComponentInChildren<TMP_Text>().text = map.sceneName;
                 if (map.player.playerAvatar != null)
                 {
                     slot.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(map.player.playerAvatar);
@@ -88,12 +85,18 @@ public class AfterLogin : MonoBehaviour
                 slot.GetComponentsInChildren<TMP_Text>()[2].text = map.player.hp.ToString();
                 slot.GetComponentsInChildren<TMP_Text>()[3].text = map.player.mana.ToString();
                 slot.GetComponentsInChildren<TMP_Text>()[5].text = "X: " + System.Math.Round(map.player.position[0], 2).ToString() + " Y: " + System.Math.Round(map.player.position[1], 2).ToString();
-
-
-
                 Count++;
             }
+
         }
+        catch (System.Exception)
+        {
+
+            throw;
+        }
+
+
+
         // gameObject.SetActive(false);
         // SaveFile_panel.SetActive(true);
     }
@@ -122,6 +125,10 @@ public class AfterLogin : MonoBehaviour
         else if (sceneName == "map3")
         {
             return 3;
+        }
+        else if (sceneName == "sceneTest_X")
+        {
+            return 4;
         }
         else
         {

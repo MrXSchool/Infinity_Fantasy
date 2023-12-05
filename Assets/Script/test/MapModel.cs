@@ -1,16 +1,18 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 [System.Serializable]
 public class MapModel
 {
+    public string sceneName;
     public PlayerModel player;
     public List<EnemyModel> enermy;
-    public string sceneName;
 
-    public MapModel(PlayerModel player, List<EnemyModel> enermy, string sceneName)
+    [JsonConstructor]
+    public MapModel(string sceneName, PlayerModel player, List<EnemyModel> enermy)
     {
+        this.sceneName = sceneName;
         this.player = player;
         this.enermy = enermy;
-        this.sceneName = sceneName;
     }
 }

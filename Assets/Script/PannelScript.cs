@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement; //
 using TMPro;
+using System.Threading;
+using UnityEditor.PackageManager;
+using Newtonsoft.Json;
+using UnityEngine.Networking;
+using System.Text;
+using Unity.VisualScripting;
 
 public class PannelScript : MonoBehaviour
 {
@@ -28,11 +34,20 @@ public class PannelScript : MonoBehaviour
     public GameObject dialog;
     public TMP_Text txtDialog;
 
+    private static PannelScript instance;
     // Start is called before the first frame update
     void Awake()
     {
-        // Đảm bảo rằng GameController không bị hủy khi chuyển Scene
-        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            // Đảm bảo rằng GameController không bị hủy khi chuyển Scene
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     void Start()
     {
@@ -43,6 +58,7 @@ public class PannelScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Menu_panel_after_login.SetActive(currentScene.ToString() == "intro");
         allMusic = GameObject.Find("music");
         currentScene = SceneManager.GetActiveScene().name;
         // isLogin = controlAPI1.isLogin;
@@ -169,27 +185,54 @@ public class PannelScript : MonoBehaviour
 
     public void saveToJson()
     {
-        Time.timeScale = 0;
-        string sceneName = SceneManager.GetActiveScene().name;
-        player = GameObject.FindGameObjectWithTag("Player");
-        enemy = GameObject.FindGameObjectsWithTag("enemy");
-        List<EnemyModel> enemies = new List<EnemyModel>();
-        foreach (GameObject e in enemy)
+        try
         {
-            Enemy enemy = e.GetComponent<Enemy>();
+            Time.timeScale = 0;
+            string username = PlayerPrefs.GetString("username");
+            string sceneName = SceneManager.GetActiveScene().name;
+            player = GameObject.FindGameObjectWithTag("Player");
+            enemy = GameObject.FindGameObjectsWithTag("enemy");
+            List<EnemyModel> enemies = new List<EnemyModel>();
+            foreach (GameObject e in enemy)
+            {
+                Enemy enemy = e.GetComponent<Enemy>();
 
-            EnemyModel enemydata = new EnemyModel(enemy);
-            enemydata.enemyName = enemydata.enemyName.Split('(')[0];
-            enemies.Add(enemydata);
+                EnemyModel enemydata = new EnemyModel(enemy);
+                enemydata.enemyName = enemydata.enemyName.Split('(')[0];
+                enemies.Add(enemydata);
+            }
+            PlayerScript players = this.player.GetComponent<PlayerScript>();
+            PlayerModel playerdata = new PlayerModel(players);
+            MapModel mapdata = new MapModel(sceneName, playerdata, enemies);
+            //load dữ liệu từ file savc cũ và xem đã có trong đó hay chưa
+            string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + username + ".json");
+            User user = JsonConvert.DeserializeObject<User>(json);
+            List<MapModel> mapModels = user.data;
+            bool isExist = false;
+            foreach (MapModel map in mapModels)
+            {
+                if (map.sceneName == sceneName)
+                {
+                    map.player = playerdata;
+                    map.enermy = enemies;
+                    isExist = true;
+                    Debug.Log("Map đã được ghi đè");
+                }
+            }
+            if (!isExist)
+            {
+                mapModels.Add(mapdata);
+                Debug.Log("Map đã được thêm mới");
+            }
+
         }
-        PlayerScript players = this.player.GetComponent<PlayerScript>();
-        PlayerModel playerdata = new PlayerModel(players);
-        MapModel mapdata = new MapModel(playerdata, enemies, sceneName);
-        string json = JsonUtility.ToJson(mapdata);
-        System.IO.File.WriteAllText(Application.dataPath + "/Data/test/" + sceneName + ".json", json);
-        txtDialog.text = "Save success";
-        dialogAnimation();
-        Time.timeScale = 1;
+        catch
+        {
+            Debug.Log("lỗi save file");
+        }
+
+
+
 
     }
 
@@ -201,6 +244,54 @@ public class PannelScript : MonoBehaviour
         canvasGroup.blocksRaycasts = true;
         StartCoroutine(DoFade(canvasGroup, canvasGroup.alpha, 1));
 
+
+    }
+
+    public void uploadClick()
+    {
+        uploadFile();
+        StartCoroutine(uploadFile());
+    }
+
+    IEnumerator uploadFile()
+    {
+        string username = PlayerPrefs.GetString("username");
+        string data = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + username + ".json");
+        User user = JsonConvert.DeserializeObject<User>(data);
+        string body = JsonConvert.SerializeObject(user.data);
+        var request = new UnityWebRequest("http://localhost:6969/gameAPI/users/saveGame/" + username, "POST");
+        byte[] bodyRaw = Encoding.UTF8.GetBytes(body);
+        request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(request.error);
+        }
+        else
+        {
+
+            var jsonString = request.downloadHandler.text.ToString();
+            Respone respone = JsonConvert.DeserializeObject<Respone>(jsonString);
+
+            if (respone.status)
+            {
+                if (respone.user != user)
+                {
+                    string save = JsonConvert.SerializeObject(respone.user);
+                    System.IO.File.WriteAllText(Application.dataPath + "/Data/user/" + username + ".json", save);
+                    txtDialog.SetText("Upload file thành công");
+                }
+            }
+            else
+            {
+                txtDialog.SetText(respone.message);
+            }
+            dialogAnimation();
+
+        }
 
     }
 

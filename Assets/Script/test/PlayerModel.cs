@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 [System.Serializable]
 public class PlayerModel
 {
@@ -18,6 +20,7 @@ public class PlayerModel
         position[2] = player.transform.position.z;
     }
 
+    [JsonConstructor]
     public PlayerModel(float hp, float mana, float[] position, string playerName, string playerAvatar)
     {
         this.hp = hp;
