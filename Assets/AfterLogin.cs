@@ -55,7 +55,7 @@ public class AfterLogin : MonoBehaviour
     }
 
 
-    public async void LoadGame()
+    public void LoadGame()
     {
         try
         {

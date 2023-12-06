@@ -26,15 +26,17 @@ public class PlayerScript : MonoBehaviour
     public string playerAvatar;
     public string playerName;
 
-    private bool isAttack = false;
-    private bool isRun = false;
-    private bool isProtect = false;
-    private bool isDead = false;
+    public bool isAttack = false;
+    public bool isRun = false;
+    public bool isProtect = false;
+    public bool isDead = false;
+    public bool isWalk = false;
 
     public GameObject healBar;
     public GameObject manaBar;
     public GameObject checkWall;
     public bool Wall = false;
+    public int comboCount;
 
 
 
@@ -129,33 +131,31 @@ public class PlayerScript : MonoBehaviour
 
 
         // TẤN CÔNG COMBO
-        if (Input.GetKeyDown(KeyCode.J))
-        {
+        // if (Input.GetKeyDown(KeyCode.J))
+        // {
 
-            if (currentState == PLAYER_IDLE || currentState == PLAYER_WALK)
-            {
-                ani.SetInteger("attack", 1);
-                changeAnimation(PLAYER_ATTACK_1);
-                Debug.Log("1");
-                isAttack = true;
-            }
-            else if (currentState == PLAYER_ATTACK_1)
-            {
-                ani.SetInteger("attack", 2);
-                changeAnimation(PLAYER_ATTACK_2);
-                Debug.Log("2");
+        //     if (currentState == PLAYER_IDLE || currentState == PLAYER_WALK)
+        //     {
+        //         if (!isAttack)
+        //         {
+        //             isAttack = true;
+        //             comboCount++;
+        //             // Kiểm tra và thực hiện animation tương ứng
+        //             if (comboCount == 1)
+        //                 changeAnimation(PLAYER_ATTACK_1);
+        //             else if (comboCount == 2)
+        //                 changeAnimation(PLAYER_ATTACK_2);
+        //             else if (comboCount == 3)
+        //                 changeAnimation(PLAYER_ATTACK_3);
+        //             // Các combo tiếp theo có thể được thêm vào tại đây
 
-            }
-            else if (currentState == PLAYER_ATTACK_2)
-            {
-                ani.SetInteger("attack", 3);
-                changeAnimation(PLAYER_ATTACK_3);
-                Debug.Log("3");
+        //             // Reset combo sau khi hoàn thành
+        //             if (comboCount >= 3 && !isAttack)
+        //                 comboCount = 0;
+        //         }
+        //     }
 
-
-            }
-
-        }
+        // }
         // Nhận AnimatorClipInfo hiện tại (chứa thông tin về ANIMATION hiện tại)
         AnimatorClipInfo[] clipInfo = ani.GetCurrentAnimatorClipInfo(0);
 
@@ -163,11 +163,11 @@ public class PlayerScript : MonoBehaviour
         string currentAnimationName = clipInfo[0].clip.name;
 
 
-
-        if (currentAnimationName == PLAYER_IDLE)
+        if (!isAttack && !isRun && !isWalk)
         {
-            isAttack = false;
+            changeAnimation(PLAYER_IDLE);
         }
+
 
 
 
@@ -199,18 +199,35 @@ public class PlayerScript : MonoBehaviour
                 isRun = true;
                 ani.SetBool("isRun", true);
             }
-            else if (Horizontal != 0 && (isRun == false || currentAnimationName == PLAYER_IDLE))
+            else if (Horizontal != 0 && (!isRun || currentAnimationName == PLAYER_IDLE))
             {
                 changeAnimation(PLAYER_WALK);
-
+                isWalk = true;
                 isRun = false;
                 ani.SetBool("isRun", false);
             }
             else
             {
+                isWalk = false;
                 changeAnimation(PLAYER_IDLE);
             }
         }
+
+        if (currentAnimationName != PLAYER_ATTACK_1 || currentAnimationName != PLAYER_ATTACK_2 || currentAnimationName != PLAYER_ATTACK_3)
+        {
+            isAttack = false;
+        }
+
+        if (!isAttack && !isWalk)
+        {
+            return;
+        }
+        else
+        {
+            isWalk = !isAttack;
+        }
+
+
     }
 
     void changeAnimation(String newState)

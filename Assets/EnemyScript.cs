@@ -19,6 +19,7 @@ public class EnemyScript : MonoBehaviour
     public bool isRight;
     public bool hasTargetFar;
     public bool hasTargetNear;
+    public bool hasTargetInDetectedZone;
     public GameObject target;
     public float distance;
     public Animator ani;
@@ -26,6 +27,12 @@ public class EnemyScript : MonoBehaviour
     public string currentState;
     public string nameEnemy;
     public float skillCD = 5f;
+
+    public bool moveEnable = true;
+    public float detectedZone;
+
+
+
 
 
 
@@ -47,39 +54,41 @@ public class EnemyScript : MonoBehaviour
         nameEnemy = gameObject.name;
         ani = GetComponent<Animator>();
         interactable = GetComponent<Interactable>();
-        skillrange = interactable.radius1;
-        attackrange = interactable.radius;
+        skillrange = interactable.far;
+        attackrange = interactable.near;
+        detectedZone = interactable.detectedZone;
+
 
     }
 
 
     void Update()
     {
-        // //thời gioan chờ skill
-        // if (!isSkill)
-        // {
-        //     skillCD -= Time.deltaTime;
-        //     if (skillCD <= 0f)
-        //     {
-        //         isSkill = true;
-        //         skillCD = 5f;
+        //thời gioan chờ skill
+        if (isSkill)
+        {
+            skillCD -= Time.deltaTime;
+            if (skillCD <= 0f)
+            {
+                isSkill = false;
+                skillCD = 5f;
 
-        //     }
-        // }
+            }
+        }
         target = GameObject.FindGameObjectWithTag("Player");
 
         //di chuyen khi khong tan cong
         // if (!hasTargetFar)
         // {
-        //     Move();
-        //     limitMove();
+        Move(moveEnable);
+        limitMove();
 
         // }
 
         //tính khoảng cách từ bản thân đến người chơi
         distance = Vector3.Distance(transform.position, target.transform.position);
 
-        //kiem tra xem co nguoi choi trong tam nhin hay khong
+        //kiem tra xem co nguoi choi trong tam skill hay khong
         if (distance <= skillrange)
         {
             hasTargetFar = true;
@@ -93,39 +102,61 @@ public class EnemyScript : MonoBehaviour
         if (distance <= attackrange)
         {
             hasTargetNear = true;
+            hasTargetFar = false;
+        }
+        else if (distance <= detectedZone)
+        {
+            hasTargetInDetectedZone = true;
         }
         else
         {
             hasTargetNear = false;
-        }
-
-        //kiem tra xem co nguoi choi trong tam nhin hay khong
-        if (hasTargetFar)
-        {
             isAttack = false;
+            hasTargetInDetectedZone = false;
         }
 
         //kiem tra xem co nguoi choi trong tam tan cong hay khong
-        if (hasTargetNear)
+        if (hasTargetInDetectedZone && !hasTargetNear)
+        {
+            lookAtTarget();
+            Debug.Log("May chay di dau");
+        }
+        else if (hasTargetNear)
         {
             isAttack = true;
             lookAtTarget();
+            moveEnable = false;
+            Debug.Log("126");
             changeAnimation(nameEnemy + "_attack");
+        }
+        else
+        {
+            moveEnable = true;
+
         }
 
         //kiem tra xem co nguoi choi trong tam nhin hay khong
         if (!hasTargetFar && !hasTargetNear)
         {
-            if (!isWalk)
-            {
-                changeAnimation(nameEnemy + "_idle");
-            }
+            moveEnable = true;
         }
 
 
 
 
+
+
     }
+
+
+    // public void starAniAtk()
+    // {
+
+    // }
+    // public void endAniAtk()
+    // {
+    //     isAttack = false;
+    // }
 
 
     //quay mat ve phia nguoi choiw khi tan cong
@@ -162,12 +193,15 @@ public class EnemyScript : MonoBehaviour
 
 
 
-    //di chuyen
-    public void Move()
+    //di chuyen mặc định
+    public void Move(bool a)
     {
-        changeAnimation(nameEnemy + "_walk");
-        isWalk = true;
-        transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
+        if (a)
+        {
+            changeAnimation(nameEnemy + "_walk");
+            isWalk = true;
+            transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
+        }
     }
 
 

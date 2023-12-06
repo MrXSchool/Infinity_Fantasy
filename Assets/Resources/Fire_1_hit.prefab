@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8155194349191678065}
   - component: {fileID: 97888599769287074}
   - component: {fileID: 2984717550462441936}
+  - component: {fileID: 5158039378870400253}
   m_Layer: 0
   m_Name: Fire_1_hit
   m_TagString: Untagged
@@ -95,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 6108173147245883865}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 911e2c7bcbeeb374c9ac00082b69e95a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3eaaf46be03e0aa4cbaec196efed08b3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -106,3 +107,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5158039378870400253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6108173147245883865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d4e20890a8e5614d8bfab191ae6b640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  lifeTime: 0.5
+  damage: 0
