@@ -2706,6 +2706,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1529171064
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1502550322842751268, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021922231849075278, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.9381065
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021922231849075278, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5913701
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021922231849075278, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021922231849075278, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021922231849075278, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021922231849075278, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021922231849075278, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021922231849075278, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021922231849075278, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021922231849075278, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2445896920167793129, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_Name
+      value: Kitsune
+      objectReference: {fileID: 0}
+    - target: {fileID: 2445896920167793129, guid: baf9545458ddadd47a02c928a7154739, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: baf9545458ddadd47a02c928a7154739, type: 3}
 --- !u!1 &1656227265
 GameObject:
   m_ObjectHideFlags: 0
@@ -3177,6 +3242,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Karasu
       objectReference: {fileID: 0}
+    - target: {fileID: 2878123781914105491, guid: 8dfb873ea757c0b4aa65ed93778b094c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4763832188897244344, guid: 8dfb873ea757c0b4aa65ed93778b094c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.9444615
@@ -3613,3 +3682,4 @@ SceneRoots:
   - {fileID: 8487243235609498256}
   - {fileID: 1909054380}
   - {fileID: 2091672784}
+  - {fileID: 1529171064}
