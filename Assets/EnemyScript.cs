@@ -104,9 +104,11 @@ public class EnemyScript : MonoBehaviour
             hasTargetNear = true;
             hasTargetFar = false;
         }
-        else if (distance <= detectedZone)
+        else if (distance <= detectedZone&&!hasTargetNear)
         {
             hasTargetInDetectedZone = true;
+            hasTargetNear=false;
+
         }
         else
         {

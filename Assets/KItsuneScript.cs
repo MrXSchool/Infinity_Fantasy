@@ -37,8 +37,10 @@ public class KItsuneScript : MonoBehaviour
         }
         else
         {
-            if (!ene.hasTargetNear && !ene.hasTargetInDetectedZone)
-            {
+
+            
+            if (!ene.hasTargetNear )
+           {
                 ene.moveEnable = true;
             }
         }

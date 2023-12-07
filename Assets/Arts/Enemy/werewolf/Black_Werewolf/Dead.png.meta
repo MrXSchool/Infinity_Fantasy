@@ -113,10 +113,10 @@ TextureImporter:
       name: Dead_0
       rect:
         serializedVersion: 2
-        x: 19
+        x: 10
         y: 0
-        width: 83
-        height: 50
+        width: 123
+        height: 88
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,10 +134,10 @@ TextureImporter:
       name: Dead_1
       rect:
         serializedVersion: 2
-        x: 147
+        x: 133
         y: 0
-        width: 89
-        height: 22
+        width: 123
+        height: 88
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
