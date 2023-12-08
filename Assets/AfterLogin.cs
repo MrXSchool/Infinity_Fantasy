@@ -20,12 +20,12 @@ public class AfterLogin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // setting_panel = GameObject.Find("setting");
-        // Menu_panel_after_login = GameObject.Find("Menu_panel_after_login");
-        // newgame = Menu_panel_after_login.GetComponentsInChildren<Button>()[0];
-        // loadgame = Menu_panel_after_login.GetComponentsInChildren<Button>()[1];
-        // setting = Menu_panel_after_login.GetComponentsInChildren<Button>()[2];
-        // exit = Menu_panel_after_login.GetComponentsInChildren<Button>()[3];
+        setting_panel = GameObject.Find("setting");
+        Menu_panel_after_login = GameObject.Find("Menu_panel_after_login");
+        newgame = Menu_panel_after_login.GetComponentsInChildren<Button>()[0];
+        loadgame = Menu_panel_after_login.GetComponentsInChildren<Button>()[1];
+        setting = Menu_panel_after_login.GetComponentsInChildren<Button>()[2];
+        exit = Menu_panel_after_login.GetComponentsInChildren<Button>()[3];
         loadingScript = GameObject.Find("Loading").GetComponent<LoadingScript>();
         saveSlot = Resources.Load<GameObject>("saveSlot");
 

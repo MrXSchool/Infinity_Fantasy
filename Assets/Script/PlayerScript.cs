@@ -7,7 +7,6 @@ using UnityEditor;
 public class PlayerScript : MonoBehaviour
 {
     public GameObject[] inventory = new GameObject[10];
-    public GameObject menu;
 
     private Animator ani;
     private Rigidbody2D rb;
@@ -64,7 +63,6 @@ public class PlayerScript : MonoBehaviour
         Sprite sprite = GetComponentInParent<SpriteRenderer>().sprite;
         playerAvatar = AssetDatabase.GetAssetPath(sprite.texture);
         playerName = this.name;
-        menu = GameObject.Find("menu");
     }
 
 
@@ -85,14 +83,6 @@ public class PlayerScript : MonoBehaviour
         {
             playerDead();
         }
-
-        if (transform.position.y <= -29 && menu.GetComponent<PannelScript>().currentScene == "map1")
-        {
-            hp = 0;
-        }
-
-
-
         // isWall();
         //cập nhật thanh máu
         healBar.GetComponent<HealBarScript>().SetHeal(hp);

@@ -51,7 +51,7 @@ public class test : MonoBehaviour
         List<EnemyModel> enemies = new List<EnemyModel>();
         foreach (GameObject e in enemy)
         {
-            EnemyScript enemy = e.GetComponent<EnemyScript>();
+            Enemy enemy = e.GetComponent<Enemy>();
             EnemyModel enemydata = new EnemyModel(enemy);
             enemies.Add(enemydata);
         }

@@ -25,9 +25,8 @@ public class SceneLoader : MonoBehaviour
 
         Debug.Log("OnSceneLoaded: " + scene.name);
         loadGame = gameObject.GetComponent<LoadGame>();
-        if (!isload) return;
         string[] files = System.IO.Directory.GetFiles("Assets/Data/test", "*.json");
-        if (files.Length == 0)
+        if (files.Length == 0 && isload)
         {
             Debug.Log("No files found.");
         }

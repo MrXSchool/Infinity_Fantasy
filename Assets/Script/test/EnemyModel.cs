@@ -8,9 +8,9 @@ public class EnemyModel
     public float hp, speed, start, end, damage;
     public float[] position;
 
-    public EnemyModel(EnemyScript enemy)
+    public EnemyModel(Enemy enemy)
     {
-        enemyName = enemy.nameEnemy;
+        enemyName = enemy.enemyName;
         hp = enemy.hp;
         speed = enemy.speed;
         start = enemy.start;

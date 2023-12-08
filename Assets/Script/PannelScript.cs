@@ -13,7 +13,7 @@ using Unity.VisualScripting;
 public class PannelScript : MonoBehaviour
 {
     public AudioClip clip;
-    public GameObject Menu_inGame;
+    public GameObject menu;
     public bool isActived = false;
     //volume
     [Range(0, 1)]
@@ -33,8 +33,7 @@ public class PannelScript : MonoBehaviour
     public GameObject[] enemy;
     public GameObject dialog;
     public TMP_Text txtDialog;
-    public GameObject Dead_panel;
-    public GameObject PlayAgian_panel;
+
     private static PannelScript instance;
     // Start is called before the first frame update
     void Awake()
@@ -52,14 +51,13 @@ public class PannelScript : MonoBehaviour
     }
     void Start()
     {
-
+        Menu_panel_after_login = GameObject.Find("Menu_panel_after_login");
         txtDialog = dialog.GetComponentsInChildren<TMP_Text>()[0];
     }
 
     // Update is called once per frame
     void Update()
     {
-        // if (Menu_panel_after_login == null) { Menu_panel_after_login = GameObject.Find("Menu_panel_after_login"); }
         Menu_panel_after_login.SetActive(currentScene.ToString() == "intro");
         allMusic = GameObject.Find("music");
         currentScene = SceneManager.GetActiveScene().name;
@@ -70,13 +68,13 @@ public class PannelScript : MonoBehaviour
             isActived = !isActived;
             if (!isActived)
             {
-                Menu_inGame.SetActive(true);
+                menu.SetActive(true);
                 Time.timeScale = 0;
                 allMusic.GetComponentInChildren<AudioSource>().Pause();
             }
             else
             {
-                Menu_inGame.SetActive(false);
+                menu.SetActive(false);
                 seting.SetActive(false);
                 // load.SetActive(false);
                 // save.SetActive(false);
@@ -86,38 +84,12 @@ public class PannelScript : MonoBehaviour
 
             }
         }
-        player = GameObject.FindWithTag("Player");
-
-
-
-        if (player.GetComponent<PlayerScript>().isDead)
-        {
-            StartCoroutine(DoFade2(Dead_panel.GetComponent<CanvasGroup>(), 0, 1));
-        }
-
-
-
-        // List<TMP_InputField> inputFields = new List<TMP_InputField>();
-        // inputFields.AddRange(GameObject.Find("Login").GetComponentsInChildren<TMP_InputField>());
-        // inputFields.AddRange(GameObject.Find("Register").GetComponentsInChildren<TMP_InputField>());
-        // if (Input.GetKeyDown(KeyCode.Tab))
-        // {
-        //     foreach (TMP_InputField inputField in inputFields)
-        //     {
-        //         if (inputField.isFocused)
-        //         {
-        //             inputField.DeactivateInputField();
-        //             inputField.transform.parent.GetComponentInChildren<TMP_InputField>().ActivateInputField();
-        //         }
-        //     }
-        // }
-
     }
 
     public void resumeClick()
     {
         isActived = false;
-        Menu_inGame.SetActive(false);
+        menu.SetActive(false);
         Time.timeScale = 1;
         allMusic.GetComponentInChildren<AudioSource>().Play();
     }
@@ -125,28 +97,28 @@ public class PannelScript : MonoBehaviour
     public void setingClick()
     {
         seting.SetActive(true);
-        Menu_inGame.SetActive(false);
+        menu.SetActive(false);
         Menu_panel_after_login.SetActive(false);
     }
 
     public void loadClick()
     {
         load.SetActive(true);
-        Menu_inGame.SetActive(false);
+        menu.SetActive(false);
         Menu_panel_after_login.SetActive(false);
     }
 
     public void saveClick()
     {
         save.SetActive(true);
-        Menu_inGame.SetActive(false);
+        menu.SetActive(false);
         Menu_panel_after_login.SetActive(false);
     }
 
     public void exitClick()
     {
         exit.SetActive(true);
-        Menu_inGame.SetActive(false);
+        menu.SetActive(false);
         Menu_panel_after_login.SetActive(false);
     }
 
@@ -169,7 +141,7 @@ public class PannelScript : MonoBehaviour
             }
             else
             {
-                Menu_inGame.SetActive(true);
+                menu.SetActive(true);
             }
 
         }
@@ -182,7 +154,7 @@ public class PannelScript : MonoBehaviour
             }
             else
             {
-                Menu_inGame.SetActive(true);
+                menu.SetActive(true);
             }
         }
         else if (save.activeSelf)
@@ -194,7 +166,7 @@ public class PannelScript : MonoBehaviour
             }
             else
             {
-                Menu_inGame.SetActive(true);
+                menu.SetActive(true);
             }
         }
         else if (exit.activeSelf)
@@ -206,7 +178,7 @@ public class PannelScript : MonoBehaviour
             }
             else
             {
-                Menu_inGame.SetActive(true);
+                menu.SetActive(true);
             }
         }
     }
@@ -223,7 +195,7 @@ public class PannelScript : MonoBehaviour
             List<EnemyModel> enemies = new List<EnemyModel>();
             foreach (GameObject e in enemy)
             {
-                EnemyScript enemy = e.GetComponent<EnemyScript>();
+                Enemy enemy = e.GetComponent<Enemy>();
 
                 EnemyModel enemydata = new EnemyModel(enemy);
                 enemydata.enemyName = enemydata.enemyName.Split('(')[0];
@@ -341,71 +313,6 @@ public class PannelScript : MonoBehaviour
         }
     }
 
-    IEnumerator DoFade1(CanvasGroup canvasGroup, float start, float end)
-    {
-        float counter = 0f;
-        while (counter < 1f)
-        {
-            counter += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(start, end, counter);
-            yield return null;
-            if (end == 0)
-            {
-                canvasGroup.interactable = (false);
-                canvasGroup.gameObject.SetActive(false);
-
-            }
-            else
-            {
-
-                canvasGroup.gameObject.SetActive(true);
-                canvasGroup.interactable = (true);
-            }
-        }
-    }
-
-    IEnumerator DoFade2(CanvasGroup canvasGroup, float start, float end)
-    {
-        if (!Dead_panel.activeSelf) { StartCoroutine(DoFade1(PlayAgian_panel.GetComponent<CanvasGroup>(), 0, 1)); }
-        float counter = 0f;
-        while (counter < 2f)
-        {
-            counter += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(start, end, counter);
-            if (canvasGroup.alpha == 1)
-            {
-                StartCoroutine(DoFade2(canvasGroup, 1, 0));
-            }
-
-            yield return null;
-            if (end == 0)
-            {
-                canvasGroup.interactable = (false);
-                canvasGroup.gameObject.SetActive(false);
-
-            }
-            else
-            {
-
-                canvasGroup.gameObject.SetActive(true);
-                canvasGroup.interactable = (true);
-            }
-        }
-    }
-
-
-    public void PlayAgian_panelBack()
-    {
-        PlayAgian_panel.SetActive(false);
-        Menu_panel_after_login.SetActive(true);
-        SceneManager.LoadScene("intro");
-    }
-
-    public void PlayAgian_panelOke()
-    {
-        PlayAgian_panel.SetActive(false);
-        SceneManager.LoadScene(currentScene);
-    }
 
 
 
