@@ -54,9 +54,7 @@ public class EnemyScript : MonoBehaviour
         nameEnemy = gameObject.name;
         ani = GetComponent<Animator>();
         interactable = GetComponent<Interactable>();
-        skillrange = interactable.far;
-        attackrange = interactable.near;
-        detectedZone = interactable.detectedZone;
+     
 
 
     }
@@ -64,6 +62,9 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
+        skillrange = interactable.far;
+        attackrange = interactable.near;
+        detectedZone = interactable.detectedZone;
         //thời gioan chờ skill
         if (isSkill)
         {
@@ -138,10 +139,10 @@ public class EnemyScript : MonoBehaviour
         }
 
         //kiem tra xem co nguoi choi trong tam nhin hay khong
-        if (!hasTargetFar && !hasTargetNear)
-        {
-            moveEnable = true;
-        }
+        //if (!hasTargetFar && !hasTargetNear)
+        //{
+        //    moveEnable = true;
+       // }
 
 
 
