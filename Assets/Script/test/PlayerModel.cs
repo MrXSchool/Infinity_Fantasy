@@ -8,7 +8,7 @@ public class PlayerModel
     public float[] position;
     public string playerName;
     public string playerAvatar;
-    public List<ScriptOBJ> inventory;
+
 
     public PlayerModel(PlayerScript player)
     {
@@ -22,16 +22,19 @@ public class PlayerModel
         position[0] = player.transform.position.x;
         position[1] = player.transform.position.y;
         position[2] = player.transform.position.z;
-        inventory = player.GetComponent<Inventory>().items;
     }
-
     [JsonConstructor]
-    public PlayerModel(float hp, float mana, float[] position, string playerName, string playerAvatar)
+    public PlayerModel(float hp, float mana, float maxHP, float maxMana, float[] position, string playerName, string playerAvatar)
     {
         this.hp = hp;
         this.mana = mana;
+        this.maxHP = maxHP;
+        this.maxMana = maxMana;
         this.position = position;
         this.playerName = playerName;
         this.playerAvatar = playerAvatar;
     }
+
+
 }
+

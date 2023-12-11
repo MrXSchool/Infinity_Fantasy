@@ -83,6 +83,7 @@ GameObject:
   - component: {fileID: 5906924533954285734}
   - component: {fileID: 2553722998219222733}
   - component: {fileID: 8513314387463162977}
+  - component: {fileID: 940107921313642929}
   m_Layer: 0
   m_Name: RedWereWolf
   m_TagString: enemy
@@ -275,7 +276,7 @@ MonoBehaviour:
   skillrange: 0
   attackrange: 0
   speed: 3
-  hp: 100
+  hp: 300
   damage: 10
   isSkill: 0
   isAttack: 0
@@ -309,3 +310,21 @@ MonoBehaviour:
   detectedZone: 6
   near: 1.8
   far: 0
+--- !u!114 &940107921313642929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8175844472565474216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76654818dfee1a747bbfdea3887907ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropitemPref: {fileID: 7581441017599491570, guid: 94be8d6ca4c2bd84ea155eb55a4eca17, type: 3}
+  lootList:
+  - {fileID: 11400000, guid: 79ce33c36e0cd77449faaacd5a890ae8, type: 2}
+  - {fileID: 11400000, guid: 35065a5bbc5698f45ae9f1d51df61fba, type: 2}
+  - {fileID: 11400000, guid: 1a9e54f3c6b7ade4b8c6eefe6eba81d3, type: 2}
+  - {fileID: 11400000, guid: 663a9375ef1eb5541b7ababcd47d3dae, type: 2}

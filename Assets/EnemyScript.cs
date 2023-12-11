@@ -195,6 +195,22 @@ public class EnemyScript : MonoBehaviour
     }
 
 
+    public void takedame(float dame)
+    {
+        hp -= dame;
+        if (hp <= 0)
+        {
+            EnemyDead();
+        }
+    }
+    public void EnemyDead()
+    {
+        GetComponent<randomLoot>().InstantiateLoot(transform.position);
+        isDead = true;
+        changeAnimation(nameEnemy + "_dead");
+        Destroy(gameObject, 1f);
+    }
+
 
     //di chuyen mặc định
     public void Move(bool a)
@@ -219,5 +235,13 @@ public class EnemyScript : MonoBehaviour
         currentState = newState;
     }
 
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("pHitBox"))
+        {
+            takedame(20);
+        }
+    }
 
 }

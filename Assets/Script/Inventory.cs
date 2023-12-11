@@ -70,6 +70,11 @@ public class Inventory : MonoBehaviour
             Debug.Log("update" + update);
             SetToHotBar(item, update);
         }
+        else
+        {
+            player.maxHP += item.hpAdd;
+            player.maxMana += item.manaAdd;
+        }
         return true;
     }
 

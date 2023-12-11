@@ -16,6 +16,7 @@ public class saveSlotButton : MonoBehaviour
         loadingScript = GameObject.Find("Loading").GetComponent<LoadingScript>();
         menu = GameObject.Find("menu");
         Load_panel = GameObject.Find("Load_panel");
+        transform.localScale = transform.parent.localScale;
 
     }
 
@@ -29,6 +30,7 @@ public class saveSlotButton : MonoBehaviour
         Load_panel.SetActive(false);
         menu.GetComponent<PannelScript>().dialogAnimation();
         loadingScript.LoadLevel(getLevel(nameSave));
+        PlayerPrefs.SetInt("isLoad", 1);
     }
 
     public int getLevel(string sceneName)

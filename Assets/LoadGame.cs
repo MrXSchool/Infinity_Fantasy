@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +18,7 @@ public class LoadGame : MonoBehaviour
     public float[] potision;
 
     LoadingScript loadingScript;
+    public PlayerScript playerScript;
 
 
     // Start is called before the first frame update
@@ -24,12 +27,17 @@ public class LoadGame : MonoBehaviour
     {
 
         loadingScript = GameObject.Find("Loading").GetComponent<LoadingScript>();
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (playerScript == null && SceneManager.GetActiveScene().name != "intro")
+        {
+            playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        }
 
     }
 
@@ -38,6 +46,27 @@ public class LoadGame : MonoBehaviour
     {
 
         Instantiate(Resources.Load<GameObject>(namePrefab), new Vector3(potision[0], potision[1], potision[2]), Quaternion.identity);
+        // if (namePrefab == "Player1")
+        // {
+        //     playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        //     string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + PlayerPrefs.GetString("username") + ".json");
+        //     User user = JsonConvert.DeserializeObject<User>(json);
+        //     List<MapModel> mapModels = user.data;
+        //     foreach (MapModel map in mapModels)
+        //     {
+        //         if (map.sceneName == SceneManager.GetActiveScene().name)
+        //         {
+        //             PlayerModel player = map.player;
+        //             Debug.Log("playerGameobjName:" + GameObject.FindGameObjectWithTag("Player").name);
+        //             playerScript.maxHP = player.maxHP;
+        //             playerScript.maxMana = player.maxMana;
+        //             playerScript.hp = player.hp;
+        //             playerScript.mana = player.mana;
+        //             Debug.Log("load true" + "player maxhp" + player.maxHP + "Playerscrip maxhp:" + playerScript.maxHP);
+        //         }
+        //     }
+
+        // }
 
 
     }
@@ -101,24 +130,32 @@ public class LoadGame : MonoBehaviour
             foreach (GameObject e in enemy)
             {
                 Destroy(e);
+                Debug.Log("Destroy" + e.name);
             }
         }
         //xóa player mặc định trong scene
-        if (GameObject.FindGameObjectWithTag("Player") != null)
+        // if (GameObject.FindGameObjectWithTag("Player") != null)
+        // {
+        //     GameObject player1 = GameObject.FindGameObjectWithTag("Player");
+        //     Destroy(player1);
+        //     Debug.Log("Destroy" + player1.name);
+        // }
+        // else
+        // {
+        //     Debug.Log("Destroy erro");
+        // }
+        // try
+        // {
+        string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + PlayerPrefs.GetString("username") + ".json");
+        User user = JsonConvert.DeserializeObject<User>(json);
+        List<MapModel> mapModels = user.data;
+        foreach (MapModel map in mapModels)
         {
-            GameObject player1 = GameObject.FindGameObjectWithTag("Player");
-            Destroy(player1);
-        }
-        try
-        {
-            string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + PlayerPrefs.GetString("username") + ".json");
-            User user = JsonConvert.DeserializeObject<User>(json);
-            List<MapModel> mapModels = user.data;
-            foreach (MapModel map in mapModels)
+            if (map.sceneName == sceneName)
             {
-                if (map.sceneName == sceneName)
+                PlayerModel player = map.player;
+                if (map.enermy.Count > 0)
                 {
-                    PlayerModel player = map.player;
                     int Count = 0;
                     foreach (EnemyModel enemy in map.enermy)
                     {
@@ -137,26 +174,33 @@ public class LoadGame : MonoBehaviour
 
                         GameObject enemyObject = GameObject.Find(enemyNameClone);
                         enemyObject.name = enemyNameClone + Count.ToString();
-                        Enemy enemyScript = enemyObject.GetComponent<Enemy>();
+                        EnemyScript enemyScript = enemyObject.GetComponent<EnemyScript>();
                         enemyScript.hp = enemyHp;
                         enemyScript.speed = enemySpeed;
                         enemyScript.start = enemyStart;
                         enemyScript.end = enemyEnd;
                         enemyScript.damage = enemyDamage;
-
+                        enemyObject.name = enemyName;
                         Count++;
                     }
-                    Spawn(player.playerName, player.position);
-                    PlayerScript playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
-                    playerScript.hp = player.hp;
-                    playerScript.mana = player.mana;
                 }
+                // Spawn(player.playerName, player.position);
+                playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+                Debug.Log("playerGameobjName:" + GameObject.FindGameObjectWithTag("Player").name);
+                playerScript.transform.position = new Vector3(player.position[0], player.position[1], player.position[2]);
+                playerScript.maxHP = player.maxHP;
+                playerScript.maxMana = player.maxMana;
+                playerScript.hp = player.hp;
+                playerScript.mana = player.mana;
+
+                Debug.Log("load true" + "player maxhp" + player.maxHP + "Playerscrip maxhp:" + playerScript.maxHP);
             }
         }
-        catch
-        {
-            Debug.Log("No file");
-        }
+        // }
+        // catch (Exception e)
+        // {
+        //     Debug.Log(e.Message);
+        // }
     }
 
     public int getLevel(string sceneName)
@@ -184,5 +228,6 @@ public class LoadGame : MonoBehaviour
         }
 
     }
+
 
 }

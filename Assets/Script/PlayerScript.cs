@@ -23,8 +23,8 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField]
     public float Jcount = 0, JcountMax = 2;
-    public float hp, mana;
-    public float maxHP = 100, maxMana = 100;
+    public float hp = 100f, mana = 100f;
+    public float maxHP = 100f, maxMana = 100f;
     public string playerAvatar;
     public string playerName;
 
@@ -60,6 +60,7 @@ public class PlayerScript : MonoBehaviour
 
 
     // Start is called before the first frame update
+
     void Start()
     {
         ani = GetComponent<Animator>();
@@ -70,8 +71,7 @@ public class PlayerScript : MonoBehaviour
         playerAvatar = AssetDatabase.GetAssetPath(sprite.texture);
         playerName = this.name;
         menu = GameObject.Find("menu");
-        hp = maxHP;
-        mana = maxMana;
+
     }
 
 
@@ -87,6 +87,12 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
+
+        if (healBar == null)
+        {
+            healBar = GameObject.Find("HealBar");
+        }
+        if (manaBar == null) { manaBar = GameObject.Find("ManaBar"); }
 
         if (hp <= 0)
         {

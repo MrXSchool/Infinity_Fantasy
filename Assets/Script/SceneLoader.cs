@@ -18,6 +18,7 @@ public class SceneLoader : MonoBehaviour
     {
         // Đăng ký sự kiện sceneLoaded
         SceneManager.sceneLoaded += OnSceneLoaded;
+
     }
 
     // Hàm được gọi khi Scene được load xong

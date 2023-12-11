@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 3800496574036543720}
   - component: {fileID: 126191920260398530}
   - component: {fileID: 7178340219119833786}
+  - component: {fileID: 5074187078369325081}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player
@@ -395,6 +396,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  menu: {fileID: 0}
   walkSpeed: 5
   currentState: 
   isGround: 1
@@ -402,6 +404,8 @@ MonoBehaviour:
   JcountMax: 0
   hp: 100
   mana: 100
+  maxHP: 100
+  maxMana: 100
   playerAvatar: 
   playerName: 
   isAttack: 0
@@ -414,6 +418,9 @@ MonoBehaviour:
   checkWall: {fileID: 1106013801951938099}
   Wall: 0
   comboCount: 0
+  isUse: 0
+  effectTime: 5
+  ItemUse: {fileID: 0}
 --- !u!114 &126191920260398530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -526,6 +533,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5074187078369325081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7837553712520931133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09bb2b073cc4c7441949b71445dbb5c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
+  HotBar: {fileID: 0}
+  slotMax: 6
+  update: 0
+  player: {fileID: 0}
 --- !u!1 &7995425237673999952
 GameObject:
   m_ObjectHideFlags: 0

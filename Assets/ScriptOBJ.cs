@@ -20,6 +20,7 @@ public class ScriptOBJ : ScriptableObject
     public float manaAdd;
     public int jumMaxAdd;
     public float damageAdd;
+    public float dropChance;
 
     public Sprite image;
     public string nameItem;
@@ -48,6 +49,7 @@ public class ScriptOBJ : ScriptableObject
         clonedObject.manaAdd = this.manaAdd;
         clonedObject.jumMaxAdd = this.jumMaxAdd;
         clonedObject.damageAdd = this.damageAdd;
+        clonedObject.dropChance = this.dropChance;
         clonedObject.image = this.image;
         clonedObject.nameItem = this.nameItem;
         clonedObject.description = this.description;
