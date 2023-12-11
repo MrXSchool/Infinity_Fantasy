@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,24 +26,21 @@ public class SceneLoader : MonoBehaviour
 
         Debug.Log("OnSceneLoaded: " + scene.name);
         loadGame = gameObject.GetComponent<LoadGame>();
-        if (!isload) return;
-        string[] files = System.IO.Directory.GetFiles("Assets/Data/test", "*.json");
-        if (files.Length == 0)
+        if (isload)
         {
-            Debug.Log("No files found.");
-        }
-        else
-        {
-            foreach (string file in files)
+            string username = PlayerPrefs.GetString("username");
+            string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + username + ".json");
+            User user = JsonConvert.DeserializeObject<User>(json);
+            foreach (MapModel item in user.data)
             {
-                Debug.Log(file);
-                string json = System.IO.File.ReadAllText(file);
-                MapModel mapdata = JsonUtility.FromJson<MapModel>(json);
-                if (mapdata.sceneName == scene.name)
+                if (item.sceneName == scene.name)
                 {
-                    // string[] name = file.Split('\\');
-                    // string[] name1 = name[1].Split('.');
-                    loadGame.loadFromJson(mapdata.sceneName);
+                    loadGame.loadFromJson(item.sceneName);
+                }
+                else
+                {
+                    Debug.Log("mapsave không tồn tại");
+                    SceneManager.LoadScene(loadGame.getLevel(scene.name));
                 }
             }
         }

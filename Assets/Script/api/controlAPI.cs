@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine.UI;
+using System.IO;
 
 public class controlAPI : MonoBehaviour
 {
@@ -93,12 +94,12 @@ public class controlAPI : MonoBehaviour
             }
         }
 
-        Menu_panel_after_login.SetActive(isLogin);
+        // Menu_panel_after_login.SetActive(true);
 
-        if (Menu_panel_after_login.GetComponent<CanvasGroup>().alpha == 1)
-        {
-            Menu_panel_after_login.GetComponent<RectTransform>().position = new Vector3(0, 0, 0);
-        }
+        // if (Menu_panel_after_login.GetComponent<CanvasGroup>().alpha == 1)
+        // {
+        //     Menu_panel_after_login.GetComponent<RectTransform>().position = new Vector3(0, 0, 0);
+        // }
     }
 
     public void oke()
@@ -204,7 +205,29 @@ public class controlAPI : MonoBehaviour
             if (respone.status)
             {
                 string jsonString1 = JsonConvert.SerializeObject(respone.user);
-                System.IO.File.WriteAllText(Application.dataPath + "/Data/user/" + respone.user.username + ".json", jsonString1);
+                string[] filePath = System.IO.Directory.GetFiles(Application.dataPath + "/Data/user", "*.json");
+                if (filePath.Length == 0)
+                {
+                    SaveData(respone.user.username, jsonString1);
+                }
+                else
+                {
+                    Debug.Log("Số lượng file tìm thấy:" + filePath.Length + " Tên: " + Path.GetFileNameWithoutExtension(filePath[0]));
+                    bool isExist = false;
+                    foreach (string item in filePath)
+                    {
+                        if (Path.GetFileNameWithoutExtension(item) == respone.user.username)
+                        {
+                            isExist = true;
+                            Debug.Log("file name:" + Path.GetFileNameWithoutExtension(item));
+                            break;
+                        }
+                    }
+                    if (isExist)
+                    {
+                        Debug.Log("Tài khoản đã từng đăng nhập chờ đồng bộ dữ liệu");
+                    }
+                }
                 txtDialog.text = "Long time no see " + respone.user.username + " !";
                 PlayerPrefs.SetString("_id", respone.user._id);
                 PlayerPrefs.SetString("username", respone.user.username);
@@ -408,6 +431,24 @@ public class controlAPI : MonoBehaviour
         StartCoroutine(DoFade(canvasGroup, canvasGroup.alpha, 1));
 
 
+    }
+    private void SaveData(string username, string saveData)
+    {
+        string directoryPath = Application.dataPath + "/Data/user/";
+
+        // Kiểm tra nếu thư mục không tồn tại, tạo mới nó
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        // Tạo đường dẫn đầy đủ cho file
+        string filePath = Path.Combine(directoryPath, username + ".json");
+
+        // Ghi dữ liệu vào file
+        File.WriteAllText(filePath, saveData);
+
+        Debug.Log("Dữ liệu đã được lưu tại: " + filePath);
     }
 
     IEnumerator DoFade(CanvasGroup canvasGroup, float start, float end)

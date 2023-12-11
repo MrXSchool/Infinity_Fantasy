@@ -23,7 +23,8 @@ public class PlayerScript : MonoBehaviour
 
     [SerializeField]
     public float Jcount = 0, JcountMax = 2;
-    public float hp = 100, mana = 100;
+    public float hp, mana;
+    public float maxHP = 100, maxMana = 100;
     public string playerAvatar;
     public string playerName;
 
@@ -38,6 +39,9 @@ public class PlayerScript : MonoBehaviour
     public GameObject checkWall;
     public bool Wall = false;
     public int comboCount;
+    public bool isUse = false;
+    public float effectTime = 5f;
+    public ScriptOBJ ItemUse;
 
 
 
@@ -54,6 +58,7 @@ public class PlayerScript : MonoBehaviour
     const string PLAYER_HURT = "Hurt";
     const string PLAYER_DEAD = "Dead";
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +70,8 @@ public class PlayerScript : MonoBehaviour
         playerAvatar = AssetDatabase.GetAssetPath(sprite.texture);
         playerName = this.name;
         menu = GameObject.Find("menu");
+        hp = maxHP;
+        mana = maxMana;
     }
 
 
@@ -91,10 +98,20 @@ public class PlayerScript : MonoBehaviour
             hp = 0;
         }
 
-
+        if (isUse)
+        {
+            effectTime -= Time.deltaTime;
+            if (effectTime <= 0)
+            {
+                isUse = false;
+                effectTime = 5f;
+            }
+        }
 
         // isWall();
         //cập nhật thanh máu
+        healBar.GetComponent<HealBarScript>().SetMaxHeal(maxHP);
+        manaBar.GetComponent<HealBarScript>().SetMaxMana(maxMana);
         healBar.GetComponent<HealBarScript>().SetHeal(hp);
         manaBar.GetComponent<HealBarScript>().SetMana(mana);
 
@@ -137,6 +154,16 @@ public class PlayerScript : MonoBehaviour
             isGround = false;
             changeAnimation(PLAYER_JUMP);
             Jcount += 1;
+        }
+
+
+
+        if (isUse)
+        {
+            if (ItemUse != null)
+            {
+                UseItem(ItemUse);
+            }
         }
 
 
@@ -275,6 +302,35 @@ public class PlayerScript : MonoBehaviour
 
 
     // }
+
+    public void UseItem(ScriptOBJ item)
+    {
+        if (item.typeOfItem.ToString() == "Restore")
+        {
+            float ftrHP = hp + item.hpRestore;
+            if (hp < ftrHP)
+            {
+                if (hp <= maxHP)
+                {
+                    hp += Time.deltaTime * 5f;
+                }
+
+            }
+            float ftrmana = mana + item.manaRestore;
+            if (mana < ftrmana)
+            {
+                if (mana <= maxMana)
+                {
+                    mana += Time.deltaTime * 5f;
+                }
+            }
+        }
+        else
+        {
+            maxHP += item.hpAdd;
+            maxMana += item.manaAdd;
+        }
+    }
 
     public void playerStatusBonus(float hp, float mana, float damage)
     {
