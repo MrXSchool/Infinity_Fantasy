@@ -9,11 +9,14 @@ using Newtonsoft.Json;
 using UnityEngine.Networking;
 using System.Text;
 using Unity.VisualScripting;
+using System;
+using System.IO;
 
 public class PannelScript : MonoBehaviour
 {
     public AudioClip clip;
-    public GameObject menu;
+    public GameObject Menu_inGame;
+    public Canvas canvas;
     public bool isActived = false;
     //volume
     [Range(0, 1)]
@@ -53,23 +56,29 @@ public class PannelScript : MonoBehaviour
     {
         Menu_panel_after_login = GameObject.Find("Menu_panel_after_login");
         txtDialog = dialog.GetComponentsInChildren<TMP_Text>()[0];
+        canvas = GetComponent<Canvas>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Menu_panel_after_login.SetActive(currentScene.ToString() == "intro");
-        allMusic = GameObject.Find("music");
+        if (canvas.worldCamera == null)
+        {
+            canvas.worldCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        }
+        // if (Menu_panel_after_login == null) { Menu_panel_after_login = GameObject.Find("Menu_panel_after_login"); }
+        // Menu_panel_after_login.SetActive(currentScene.ToString() == "intro");
+        if (allMusic == null) { allMusic = GameObject.Find("music"); }
         currentScene = SceneManager.GetActiveScene().name;
         // isLogin = controlAPI1.isLogin;
         if (Input.GetKeyDown(KeyCode.Escape) && currentScene != "intro")
         {
             Debug.Log("esc");
             isActived = !isActived;
-            if (!isActived)
+            if (isActived)
             {
-                menu.SetActive(true);
                 Time.timeScale = 0;
+                Menu_inGame.SetActive(true);
                 allMusic.GetComponentInChildren<AudioSource>().Pause();
             }
             else
@@ -84,6 +93,35 @@ public class PannelScript : MonoBehaviour
 
             }
         }
+        player = GameObject.FindWithTag("Player");
+
+
+
+
+        if (currentScene != "intro")
+        {
+            if (player.GetComponent<PlayerScript>().isDead)
+            {
+                StartCoroutine(DoFade2(Dead_panel.GetComponent<CanvasGroup>(), 0, 1));
+            }
+        }
+
+
+        // List<TMP_InputField> inputFields = new List<TMP_InputField>();
+        // inputFields.AddRange(GameObject.Find("Login").GetComponentsInChildren<TMP_InputField>());
+        // inputFields.AddRange(GameObject.Find("Register").GetComponentsInChildren<TMP_InputField>());
+        // if (Input.GetKeyDown(KeyCode.Tab))
+        // {
+        //     foreach (TMP_InputField inputField in inputFields)
+        //     {
+        //         if (inputField.isFocused)
+        //         {
+        //             inputField.DeactivateInputField();
+        //             inputField.transform.parent.GetComponentInChildren<TMP_InputField>().ActivateInputField();
+        //         }
+        //     }
+        // }
+
     }
 
     public void resumeClick()
@@ -97,34 +135,59 @@ public class PannelScript : MonoBehaviour
     public void setingClick()
     {
         seting.SetActive(true);
-        menu.SetActive(false);
-        Menu_panel_after_login.SetActive(false);
+        if (currentScene != "intro")
+        {
+            Menu_inGame.SetActive(false);
+        }
+        else
+        {
+            Menu_panel_after_login.SetActive(false);
+        }
     }
 
     public void loadClick()
     {
         load.SetActive(true);
-        menu.SetActive(false);
-        Menu_panel_after_login.SetActive(false);
+        if (currentScene != "intro")
+        {
+            Menu_inGame.SetActive(false);
+        }
+        else
+        {
+            Menu_panel_after_login.SetActive(false);
+        }
     }
 
     public void saveClick()
     {
         save.SetActive(true);
-        menu.SetActive(false);
-        Menu_panel_after_login.SetActive(false);
+        if (currentScene != "intro")
+        {
+            Menu_inGame.SetActive(false);
+        }
+        else
+        {
+            Menu_panel_after_login.SetActive(false);
+        }
     }
 
     public void exitClick()
     {
         exit.SetActive(true);
-        menu.SetActive(false);
-        Menu_panel_after_login.SetActive(false);
+        if (currentScene != "intro")
+        {
+            Menu_inGame.SetActive(false);
+        }
+        else
+        {
+            Menu_panel_after_login.SetActive(false);
+        }
     }
 
     public void exitOke()
     {
         //chuyển về màn hình chính
+        exit.SetActive(false);
         SceneManager.LoadScene("intro");
         Debug.Log("oke");
     }
@@ -195,46 +258,111 @@ public class PannelScript : MonoBehaviour
             List<EnemyModel> enemies = new List<EnemyModel>();
             foreach (GameObject e in enemy)
             {
-                Enemy enemy = e.GetComponent<Enemy>();
-
+                EnemyScript enemy = e.GetComponent<EnemyScript>();
                 EnemyModel enemydata = new EnemyModel(enemy);
                 enemydata.enemyName = enemydata.enemyName.Split('(')[0];
                 enemies.Add(enemydata);
             }
-            PlayerScript players = this.player.GetComponent<PlayerScript>();
+            PlayerScript players = player.GetComponent<PlayerScript>();
             PlayerModel playerdata = new PlayerModel(players);
             MapModel mapdata = new MapModel(sceneName, playerdata, enemies);
-            //load dữ liệu từ file savc cũ và xem đã có trong đó hay chưa
-            string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + username + ".json");
+
+            string filePath = Path.Combine(Application.dataPath, "Data", "user", $"{username}.json");
+
+            // Đọc dữ liệu từ tệp cũ
+            string json = System.IO.File.ReadAllText(filePath);
             User user = JsonConvert.DeserializeObject<User>(json);
-            List<MapModel> mapModels = user.data;
-            bool isExist = false;
-            foreach (MapModel map in mapModels)
+
+            if (user.data == null)
             {
-                if (map.sceneName == sceneName)
+                Debug.Log("MapData: null");
+                user.data = new List<MapModel> { mapdata };
+            }
+            else
+            {
+                bool isExist = false;
+                foreach (MapModel map in user.data)
                 {
-                    map.player = playerdata;
-                    map.enermy = enemies;
-                    isExist = true;
-                    Debug.Log("Map đã được ghi đè");
+                    if (map.sceneName == sceneName)
+                    {
+                        map.player = playerdata;
+                        map.enermy = enemies;
+                        isExist = true;
+                        Debug.Log("Map đã được ghi đè");
+                        break; // Thoát khỏi vòng lặp khi tìm thấy map giống
+                    }
+                }
+                if (!isExist)
+                {
+                    user.data.Add(mapdata);
+                    Debug.Log("Map đã được thêm mới");
                 }
             }
-            if (!isExist)
-            {
-                mapModels.Add(mapdata);
-                Debug.Log("Map đã được thêm mới");
-            }
 
+            // Lưu dữ liệu vào tệp JSON
+            string save = JsonConvert.SerializeObject(user);
+            SaveData(username, save);
+            txtDialog.text = "Lưu thành công!";
+            dialogAnimation();
         }
-        catch
+        catch (Exception e)
         {
-            Debug.Log("lỗi save file");
+            Debug.LogError($"Có lỗi xảy ra khi save: {e.Message}");
+            txtDialog.text = "Có lỗi xảy ra khi save";
+            dialogAnimation();
         }
 
+    }
 
+    public void SyncClick()
+    {
+        string username = PlayerPrefs.GetString("username");
+        SyncData(username);
+        StartCoroutine(SyncData(username));
+    }
+
+
+    IEnumerator SyncData(string username)
+    {
+
+        var request = new UnityWebRequest("http://localhost:6969/gameAPI/users/" + username, "get");
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(request.error);
+        }
+        else
+        {
+            var jsonString = request.downloadHandler.text.ToString();
+            Respone respone = JsonConvert.DeserializeObject<Respone>(jsonString);
+
+            if (respone.status)
+            {
+                string jsonString1 = JsonConvert.SerializeObject(respone.user);
+                SaveData(respone.user.username, jsonString1);
+                txtDialog.text = "Đồng bộ dữ liệu thành công!";
+            }
+            else
+            {
+
+                txtDialog.text = respone.message;
+            }
+            dialogAnimation();
+
+
+
+
+        }
+        request.Dispose();
 
 
     }
+
+
+
 
     public void dialogAnimation()
     {
@@ -281,7 +409,7 @@ public class PannelScript : MonoBehaviour
                 if (respone.user != user)
                 {
                     string save = JsonConvert.SerializeObject(respone.user);
-                    System.IO.File.WriteAllText(Application.dataPath + "/Data/user/" + username + ".json", save);
+                    SaveData(username, save);
                     txtDialog.SetText("Upload file thành công");
                 }
             }
@@ -294,6 +422,8 @@ public class PannelScript : MonoBehaviour
         }
 
     }
+
+
 
     IEnumerator DoFade(CanvasGroup canvasGroup, float start, float end)
     {
@@ -313,6 +443,89 @@ public class PannelScript : MonoBehaviour
         }
     }
 
+    IEnumerator DoFade1(CanvasGroup canvasGroup, float start, float end)
+    {
+        float counter = 0f;
+        while (counter < 1f)
+        {
+            counter += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(start, end, counter);
+            yield return null;
+            if (end == 0)
+            {
+                canvasGroup.interactable = (false);
+                canvasGroup.gameObject.SetActive(false);
+
+            }
+            else
+            {
+
+                canvasGroup.gameObject.SetActive(true);
+                canvasGroup.interactable = (true);
+            }
+        }
+    }
+
+    IEnumerator DoFade2(CanvasGroup canvasGroup, float start, float end)
+    {
+        if (!Dead_panel.activeSelf) { StartCoroutine(DoFade1(PlayAgian_panel.GetComponent<CanvasGroup>(), 0, 1)); }
+        float counter = 0f;
+        while (counter < 2f)
+        {
+            counter += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(start, end, counter);
+            if (canvasGroup.alpha == 1)
+            {
+                StartCoroutine(DoFade2(canvasGroup, 1, 0));
+            }
+
+            yield return null;
+            if (end == 0)
+            {
+                canvasGroup.interactable = (false);
+                canvasGroup.gameObject.SetActive(false);
+
+            }
+            else
+            {
+
+                canvasGroup.gameObject.SetActive(true);
+                canvasGroup.interactable = (true);
+            }
+        }
+    }
+    private void SaveData(string username, string saveData)
+    {
+        string directoryPath = Application.dataPath + "/Data/user/";
+
+        // Kiểm tra nếu thư mục không tồn tại, tạo mới nó
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
+        // Tạo đường dẫn đầy đủ cho file
+        string filePath = Path.Combine(directoryPath, username + ".json");
+
+        // Ghi dữ liệu vào file
+        File.WriteAllText(filePath, saveData);
+
+        Debug.Log("Dữ liệu đã được lưu tại: " + filePath);
+    }
+
+
+    public void PlayAgian_panelBack()
+    {
+        PlayAgian_panel.SetActive(false);
+        Menu_panel_after_login.SetActive(true);
+        SceneManager.LoadScene("intro");
+    }
+
+    public void PlayAgian_panelOke()
+    {
+        PlayAgian_panel.SetActive(false);
+        SceneManager.LoadScene(currentScene);
+    }
 
 
 

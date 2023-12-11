@@ -15,6 +15,8 @@ public class test : MonoBehaviour
     public string mp;
     public float[] potision;
 
+    public ScriptOBJ item;
+    public ScriptOBJ itemload;
     LoadingScript loadingScript;
 
 
@@ -39,6 +41,22 @@ public class test : MonoBehaviour
 
         Instantiate(Resources.Load<GameObject>(namePrefab), new Vector3(potision[0], potision[1], potision[2]), Quaternion.identity);
 
+
+    }
+
+    public void saveScriptableObjectJson()
+    {
+        string json = JsonUtility.ToJson(item);
+        System.IO.File.WriteAllText(Application.dataPath + "/Data/test/test.json", json);
+    }
+
+    public void LoadScriptableObjectJson()
+    {
+        string json = System.IO.File.ReadAllText(Application.dataPath + "/Data/test/test.json");
+        ScriptOBJ clone = item.Clone();
+        JsonUtility.FromJsonOverwrite(json, itemload);
+
+        Inventory.instance.Add(clone);
 
     }
 

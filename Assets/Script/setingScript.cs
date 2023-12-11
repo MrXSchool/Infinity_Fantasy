@@ -13,14 +13,23 @@ public class setingScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        musicObject = GameObject.Find("music");
-        musicBackground = musicObject.GetComponentsInChildren<AudioSource>()[0];
-        musicVolume.value = musicBackground.volume;
+
+        if (musicObject != null)
+        {
+            musicBackground = musicObject.GetComponentsInChildren<AudioSource>()[0];
+            musicVolume.value = musicBackground.volume;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (musicObject == null)
+        {
+            musicObject = GameObject.Find("music");
+            musicBackground = musicObject.GetComponentsInChildren<AudioSource>()[0];
+            musicVolume.value = musicBackground.volume;
+        }
         musicBackground.volume = musicVolume.value;
 
     }

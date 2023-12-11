@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdce7e445456d1e4cad9382b241ad856, type: 3}
   m_Name: LifeCrystals
   m_EditorClassIdentifier: 
+  uIHotBarCtrl: {fileID: 0}
+  typeOfItem: 0
+  amount: 0
+  maxStack: 999
   hpRestore: 30
   manaRestore: 0
   hpAdd: 0

@@ -12,4 +12,9 @@ public class Item : ScriptableObject
         Debug.Log("Using " + name);
     }
 
+    public virtual void AddToHotBar(int index)
+    {
+        Debug.Log("Add: " + name + "to " + index);
+    }
+
 }

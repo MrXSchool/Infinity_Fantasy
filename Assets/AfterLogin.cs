@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System;
 using Newtonsoft.Json;
+using System.Linq;
 
 public class AfterLogin : MonoBehaviour
 {
@@ -57,43 +58,65 @@ public class AfterLogin : MonoBehaviour
 
     public void LoadGame()
     {
-        try
+        // try
+        // {
+        PlayerPrefs.GetString("username");
+        SceneLoader sceneLoader = GameObject.Find("menu").GetComponent<SceneLoader>();
+        sceneLoader.isload = true;
+        Menu_panel_after_login.SetActive(false);
+        Load_panel.SetActive(true);
+        string file = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + PlayerPrefs.GetString("username") + ".json");
+        User user = JsonConvert.DeserializeObject<User>(file);
+        List<MapModel> mapModels = user.data;
+        int Count = 0;
+        if (saveFIle.transform.childCount != 0)
         {
-            PlayerPrefs.GetString("username");
-            SceneLoader sceneLoader = GameObject.Find("menu").GetComponent<SceneLoader>();
-            sceneLoader.isload = true;
-            Menu_panel_after_login.SetActive(false);
-            Load_panel.SetActive(true);
-            string file = System.IO.File.ReadAllText(Application.dataPath + "/Data/user/" + PlayerPrefs.GetString("username") + ".json");
-            User user = JsonConvert.DeserializeObject<User>(file);
-            List<MapModel> mapModels = user.data;
-            int Count = 0;
-            foreach (MapModel map in mapModels)
+            Count = saveFIle.transform.childCount;
+            GameObject[] slotSaves = new GameObject[Count];
+            for (int i = 0; i < saveFIle.transform.childCount; i++)
             {
-                GameObject slot = Instantiate(saveSlot);
-                slot.transform.SetParent(saveFIle.transform);
-                slot.name = "slot" + Count.ToString();
-                slot.GetComponentInChildren<TMP_Text>().text = map.sceneName;
-                if (map.player.playerAvatar != null)
-                {
-                    slot.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(map.player.playerAvatar);
-                }
-                else
-                {
-                    slot.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Assets/Resource/Player/Samurai/Samurai_Commander/Idle.png");
-                }
-                slot.GetComponentsInChildren<TMP_Text>()[2].text = map.player.hp.ToString();
-                slot.GetComponentsInChildren<TMP_Text>()[3].text = map.player.mana.ToString();
-                slot.GetComponentsInChildren<TMP_Text>()[5].text = "X: " + System.Math.Round(map.player.position[0], 2).ToString() + " Y: " + System.Math.Round(map.player.position[1], 2).ToString();
-                Count++;
+                slotSaves[i] = saveFIle.transform.GetChild(i).gameObject;
             }
 
+            for (int i = 0; i < slotSaves.Length; i++)
+            {
+                string slotname = slotSaves[i].GetComponentInChildren<TMP_Text>().text;
+                for (int j = 0; j < mapModels.Count; j++)
+                {
+                    if (slotname == mapModels[j].sceneName)
+                    {
+                        mapModels.RemoveAt(j);
+                    }
+                }
+            }
         }
-        catch (System.Exception)
+        foreach (MapModel map in mapModels)
         {
-
-            throw;
+            GameObject slot = Instantiate(saveSlot);
+            slot.transform.SetParent(saveFIle.transform);
+            slot.name = "slot" + Count.ToString();
+            slot.GetComponentInChildren<TMP_Text>().text = map.sceneName;
+            if (map.player.playerAvatar != null)
+            {
+                slot.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(map.player.playerAvatar);
+            }
+            else
+            {
+                slot.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>("Assets/Resource/Player/Samurai/Samurai_Commander/Idle.png");
+            }
+            slot.GetComponentsInChildren<TMP_Text>()[2].text = map.player.hp.ToString();
+            slot.GetComponentsInChildren<TMP_Text>()[3].text = map.player.mana.ToString();
+            slot.GetComponentsInChildren<TMP_Text>()[5].text = "X: " + System.Math.Round(map.player.position[0], 2).ToString() + " Y: " + System.Math.Round(map.player.position[1], 2).ToString();
+            Count++;
         }
+
+
+        // }
+        // catch (System.Exception e)
+        // {
+
+        //     throw e;
+        // }
 
 
 
