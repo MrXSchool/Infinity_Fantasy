@@ -34,6 +34,7 @@ public class PlayerScript : MonoBehaviour
     public bool isDead = false;
     public bool isWalk = false;
 
+    public GameObject firePos;
     public GameObject healBar;
     public GameObject manaBar;
     public GameObject checkWall;
@@ -121,6 +122,10 @@ public class PlayerScript : MonoBehaviour
         healBar.GetComponent<HealBarScript>().SetHeal(hp);
         manaBar.GetComponent<HealBarScript>().SetMana(mana);
 
+        if (Input.GetKeyDown(KeyCode.U) && mana >= 30)
+        {
+            changeAnimation("Skill");
+        }
 
         //DI CHUYỂN THEO TỐC ĐỘ ĐI HOẶC CHẠY
         Horizontal = Input.GetAxisRaw("Horizontal");
@@ -206,7 +211,7 @@ public class PlayerScript : MonoBehaviour
         string currentAnimationName = clipInfo[0].clip.name;
 
 
-        if (!isAttack && !isRun && !isWalk)
+        if (!isAttack && !isRun && !isWalk && !isDead)
         {
             changeAnimation(PLAYER_IDLE);
         }
@@ -346,10 +351,13 @@ public class PlayerScript : MonoBehaviour
     }
     public void playerDead()
     {
-        changeAnimation(PLAYER_DEAD);
-        isDead = true;
-        //disable all component of player
+        GetComponent<PlayerCombo>().enabled = false;
         this.enabled = false;
+
+        isDead = true;
+        changeAnimation(PLAYER_DEAD);
+        //disable all component of player
+
 
 
     }
@@ -374,5 +382,12 @@ public class PlayerScript : MonoBehaviour
         }
 
 
+    }
+
+    public void shoot()
+    {
+
+        mana -= 30;
+        Instantiate(Resources.Load("pSkill"), firePos.transform.position, firePos.transform.rotation);
     }
 }

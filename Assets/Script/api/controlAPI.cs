@@ -63,6 +63,7 @@ public class controlAPI : MonoBehaviour
         if (dialog == null) dialog = GameObject.Find("dialog");
         if (Menu_panel_after_login == null) Menu_panel_after_login = GameObject.Find("Menu_panel_after_login");
         if (confirmOTP == null) confirmOTP = Confirm_panel.GetComponentsInChildren<TMP_InputField>();
+
         isLoginActive = login.activeSelf;
 
 

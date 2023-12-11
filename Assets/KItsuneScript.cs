@@ -25,7 +25,7 @@ public class KItsuneScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        firePos = GameObject.Find("firePos");
+        // firePos = GameObject.Find("firePos");
 
 
         if (ene.hasTargetFar && !ene.isSkill && !ene.hasTargetNear)
@@ -38,9 +38,9 @@ public class KItsuneScript : MonoBehaviour
         else
         {
 
-            
-            if (!ene.hasTargetNear )
-           {
+
+            if (!ene.hasTargetNear)
+            {
                 ene.moveEnable = true;
             }
         }

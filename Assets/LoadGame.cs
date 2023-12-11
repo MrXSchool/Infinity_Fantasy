@@ -19,6 +19,7 @@ public class LoadGame : MonoBehaviour
 
     LoadingScript loadingScript;
     public PlayerScript playerScript;
+    public GameObject PlayAgian_panel;
 
 
     // Start is called before the first frame update
@@ -68,6 +69,20 @@ public class LoadGame : MonoBehaviour
 
         // }
 
+
+    }
+
+    public void playAgain()
+    {
+        PlayAgian_panel.SetActive(false);
+        GameObject.Find("Loading").GetComponent<LoadingScript>().LoadLevel(getLevel(SceneManager.GetActiveScene().name));
+
+    }
+
+    public void backToIntro()
+    {
+        PlayAgian_panel.SetActive(false);
+        GameObject.Find("Loading").GetComponent<LoadingScript>().LoadLevel(getLevel("intro"));
 
     }
 
@@ -229,5 +244,12 @@ public class LoadGame : MonoBehaviour
 
     }
 
+
+    IEnumerator loadAfter(string sceneName)
+    {
+
+        yield return 1f;
+        SceneManager.LoadScene(sceneName);
+    }
 
 }

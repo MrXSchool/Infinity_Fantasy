@@ -207,6 +207,7 @@ public class EnemyScript : MonoBehaviour
     {
         GetComponent<randomLoot>().InstantiateLoot(transform.position);
         isDead = true;
+        this.enabled = false;
         changeAnimation(nameEnemy + "_dead");
         Destroy(gameObject, 1f);
     }

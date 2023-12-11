@@ -22,6 +22,7 @@ public class LoadingScript : MonoBehaviour
     }
 
     public void LoadLevel(int sceneIndex)
+
     {
         StartCoroutine(LoadAsynchronously(sceneIndex));
 

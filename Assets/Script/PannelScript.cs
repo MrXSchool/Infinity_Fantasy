@@ -63,6 +63,7 @@ public class PannelScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (canvas.worldCamera == null)
         {
             canvas.worldCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
@@ -104,6 +105,7 @@ public class PannelScript : MonoBehaviour
             if (player.GetComponent<PlayerScript>().isDead)
             {
                 StartCoroutine(DoFade2(Dead_panel.GetComponent<CanvasGroup>(), 0, 1));
+                if (!Dead_panel.activeSelf) { PlayAgian_panel.SetActive(true); }
             }
         }
 
@@ -469,7 +471,7 @@ public class PannelScript : MonoBehaviour
 
     IEnumerator DoFade2(CanvasGroup canvasGroup, float start, float end)
     {
-        if (!Dead_panel.activeSelf) { StartCoroutine(DoFade1(PlayAgian_panel.GetComponent<CanvasGroup>(), 0, 1)); }
+
         float counter = 0f;
         while (counter < 2f)
         {
@@ -480,6 +482,30 @@ public class PannelScript : MonoBehaviour
                 StartCoroutine(DoFade2(canvasGroup, 1, 0));
             }
 
+            yield return null;
+
+            if (end == 0)
+            {
+                canvasGroup.interactable = (false);
+                canvasGroup.gameObject.SetActive(false);
+
+            }
+            else
+            {
+
+                canvasGroup.gameObject.SetActive(true);
+                canvasGroup.interactable = (true);
+            }
+        }
+    }
+    IEnumerator DoFade3(CanvasGroup canvasGroup, float start, float end)
+    {
+
+        float counter = 0f;
+        while (counter < 2f)
+        {
+            counter += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(start, end, counter);
             yield return null;
             if (end == 0)
             {
@@ -493,6 +519,7 @@ public class PannelScript : MonoBehaviour
                 canvasGroup.gameObject.SetActive(true);
                 canvasGroup.interactable = (true);
             }
+
         }
     }
     private void SaveData(string username, string saveData)

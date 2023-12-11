@@ -12,6 +12,7 @@ public class SceneLoader : MonoBehaviour
     public GameObject dialog;
     public GameObject Login_panel;
     public GameObject Register_panel;
+    public GameObject PlayAgian_panel;
     public bool isload = false;
 
     void Start()
@@ -24,7 +25,11 @@ public class SceneLoader : MonoBehaviour
     // Hàm được gọi khi Scene được load xong
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-
+        PlayAgian_panel.SetActive(false);
+        if (scene.name == "intro")
+        {
+            Menu_panel_after_login.SetActive(true);
+        }
         Debug.Log("OnSceneLoaded: " + scene.name);
         loadGame = gameObject.GetComponent<LoadGame>();
         if (isload)
@@ -53,7 +58,10 @@ public class SceneLoader : MonoBehaviour
         // Login_panel = GameObject.Find("Login_panel");
         // Register_panel = GameObject.Find("Register_panel");
         Menu_panel.SetActive(false);
-        Menu_panel_after_login.SetActive(false);
+        if (scene.name != "intro")
+        {
+            Menu_panel_after_login.SetActive(false);
+        }
         seting.SetActive(false);
         Load_panel.SetActive(false);
         dialog.SetActive(false);
