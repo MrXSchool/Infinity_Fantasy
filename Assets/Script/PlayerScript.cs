@@ -14,7 +14,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField]
     private float walkSpeed = 5f;
     private float runSpeed = 10f;
-    private float jumpForce = 5f;
+    private float jumpForce = 5.5f;
     [SerializeField]
     private String currentState;
     private float Horizontal;

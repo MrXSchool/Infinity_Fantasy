@@ -226,7 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectedZone: 3.46
-  near: 1.37
+  near: 1.41
   far: 5
 --- !u!114 &1773518781170133789
 MonoBehaviour:
